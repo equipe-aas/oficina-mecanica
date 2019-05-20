@@ -6,9 +6,9 @@ class PedidoDePeca:
         self.pecas = []
         self.fornecedor = fornecedor
         self.data = date.today().strftime('%d/%m/%Y')
-    def adicionarPeca(self, peca,quantidade):
+    def adicionar(self, peca,quantidade):
         self.pecas.append(PecaQuantidade(peca,quantidade))
-    def removerPeca(self,peca):
+    def remover(self,peca):
         self.pecas.remove(peca)
     def str(self):
         string  = ""
