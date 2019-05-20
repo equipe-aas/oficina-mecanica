@@ -1,9 +1,4 @@
-class Cliente:
+from entidades.Pessoa import Pessoa
+class Cliente(Pessoa):
     def __init__(self, cpf, nome, endereco, telefone):
-        self.cpf = cpf
-        self.nome = nome
-        self.endereco = endereco
-        self.telefone = telefone
-    def str(self):
-        string = "CPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nTELEFONE(S): "+self.telefone+self.endereco.str()
-        return string
+        Pessoa.__init__(cpf,nome,endereco,telefone)
