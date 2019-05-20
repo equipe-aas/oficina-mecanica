@@ -1,11 +1,11 @@
 class RepositorioPeca:
     def __init__(self):
         self.pecas = []
-    def adicionarPeca(self,peca):
+    def adicionar(self,peca):
         self.pecas.append(peca)
-    def removerPeca(self,peca):
+    def remover(self,peca):
         self.pecas.remove(peca)
-    def buscarPeca(self,codigo):
+    def buscar(self,codigo):
         peca = None
         for p in self.pecas:
             if p.codigo == codigo:
