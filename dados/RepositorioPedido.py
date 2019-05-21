@@ -15,5 +15,5 @@ class RepositorioPedido:
     def str(self):
         string = ""
         for p in self.pedidos:
-            string += pstr() + "\n"
+            string += p.str() + "\n"
         return string
