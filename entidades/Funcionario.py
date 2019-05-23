@@ -6,6 +6,11 @@ class Funcionario(Pessoa):
         self.funcao = funcao
         self.data_nasc = data_nasc
         self.salario = salario
+        if(funcao == "GERENTE"):
+            self.is_gerente = True
+        else:
+            self.is_gerente = False
+
     def str(self):
         string = "RG: "+str(self.rg)+"\nCPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nFUNCAO: "+self.funcao+\
                  "DATA NASCIMENTO: "+str(self.data_nasc)+"SALARIO: R$ "+round(self.salario,2) + "\n"+ self.endereco.str()
