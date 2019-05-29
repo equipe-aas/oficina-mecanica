@@ -9,7 +9,7 @@ class NegocioFornecedor:
         if(self.fornecedores.buscar(fornecedor.cnpj) == None):
             self.fornecedores.adicionar(fornecedor)
         else:
-          raise CnpjExisteException()
+          raise CnpjExisteException(fornecedor.cnpj)
     def remover(self,cnpj):
         fornecedor = self.fornecedores.buscar(cnpj)
         if(fornecedor != None):
