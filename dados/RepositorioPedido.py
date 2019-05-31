@@ -12,7 +12,7 @@ class RepositorioPedido:
                 pedido = p
                 break
         return pedido
-    def str(self):
+    def __str__(self):
         string = ""
         for p in self.pedidos:
             string += p.str() + "\n"

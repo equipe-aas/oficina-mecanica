@@ -12,7 +12,7 @@ class RepositorioFornecedor:
                 fornecedor = f
                 break
         return fornecedor
-    def str(self):
+    def __str__(self):
         string = ""
         for s in self.servicos:
             string += s.str() + "\n"

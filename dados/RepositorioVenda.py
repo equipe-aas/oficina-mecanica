@@ -1,4 +1,4 @@
-class RepositorioPedido:
+class RepositorioVenda:
     def __init__(self):
         self.vendas = []
     def adicionar(self,venda):
@@ -12,7 +12,7 @@ class RepositorioPedido:
                 venda = v
                 break
         return venda
-    def str(self):
+    def __str__(self):
         string = ""
         for v in self.vendas:
             string += v.str() + "\n"

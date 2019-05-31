@@ -5,7 +5,7 @@ class Endereco:
         self.cidade = cidade
         self.estado = estado
         self.numero = numero
-    def str(self):
+    def __str__(self):
         string = self.rua + ", " + self.bairro + ", " + self.cidade + ", " + self.estado + ", " + str(self.numero)
         return string
 

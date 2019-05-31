@@ -4,9 +4,9 @@ class Servico:
         self.descricao = descricao
         self.peca = peca
         self.preco_venda = preco_venda
-    def str(self):
-        string = "CODIGO : " + str(self.codigo) + "\nDESCRICAO: " + str(self.descricao) +\
-                 "\nPRECO DE VENDA: R$ " + str(round(self.preco_venda, 2))
+    def __str__(self):
+        string = "CODIGO : " + str(self.codigo) + " DESCRICAO: " + str(self.descricao) +\
+                 " PRECO DE VENDA: R$ " + str(round(self.preco_venda, 2))
         if(self.peca != None):
-            string += self.peca.str()
+            string += self.peca.__str__()
         return string
