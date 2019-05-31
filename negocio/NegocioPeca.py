@@ -23,5 +23,5 @@ class NegocioPeca:
         else:
             raise CodigoNaoEncontradoException(codigo)
 
-    def str(self):
-        return self.pecas.str()
+    def __str__(self):
+        return self.pecas.__str__()

@@ -22,5 +22,5 @@ class NegocioPedido:
             return pedido
         else:
             raise CodigoNaoEncontradoException(pedido.codigo)
-    def str(self):
-        return self.pedidos.str()
+    def __str__(self):
+        return self.pedidos.__str__()
