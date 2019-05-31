@@ -1,15 +1,25 @@
 from dados.RepositorioPeca import RepositorioPeca
-from excessoes.CodigoJaExisteException import CodigoJaExisteException
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
+from excessoes.DescricaoInvalidaException import DescricaoInvalidaException
+from excessoes.ValorInvalidoException import ValorInvalidoException
+from entidades.Peca import Peca
 
 class NegocioPeca:
+    codigo = 0
     def __init__(self):
         self.pecas = RepositorioPeca()
-    def adicionar(self,peca):
-        if(self.pecas.buscar(peca.codigo) == None):
-            self.pecas.adicionar(peca)
+    def adicionar(self, descricao, fornecedor, preco_custo, preco_venda, quantidade):
+        if len(descricao)<5 :
+            raise DescricaoInvalidaException(descricao)
+        if preco_custo < 0:
+            raise ValorInvalidoException(preco_custo)
+        if preco_venda < 0:
+            raise ValorInvalidoException(preco_venda)
+        if quantidade < 0:
+            raise ValorInvalidoException(quantidade)
         else:
-            raise CodigoJaExisteException(peca.codigo)
+            NegocioPeca.codigo += 1
+            self.pecas.adicionar(Peca(NegocioPeca.codigo,descricao, fornecedor, preco_custo, preco_venda, quantidade))
     def remover(self,codigo):
         peca = self.pecas.buscar(codigo)
         if(peca != None):
