@@ -1,4 +1,4 @@
-class RepositorioPedido:
+class RepositorioVenda:
     def __init__(self):
         self.vendas = []
     def adicionar(self,venda):
