@@ -12,7 +12,7 @@ class RepositorioServico:
                 servico = s
                 break
         return servico
-    def str(self):
+    def __str__(self):
         string = ""
         for s in self.servicos:
             string += s.str() + "\n"

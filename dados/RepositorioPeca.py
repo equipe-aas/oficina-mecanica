@@ -12,7 +12,7 @@ class RepositorioPeca:
                 peca = p
                 break
         return peca
-    def str(self):
+    def __str__(self):
         string = ""
         for p in self.pecas:
             string += p.str() + "\n"
