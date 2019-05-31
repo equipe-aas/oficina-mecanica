@@ -8,7 +8,7 @@ class ItemVenda:
             return round(self.quantidade*self.peca.preco_venda,2)
         else:
             return round(self.quantidade*self.servico.preco_venda,2)
-    def str(self):
+    def __str__(self):
         string = ""
         if (self.peca != None):
             string += "DESCRICAO: "+self.peca.descricao+" QUANTIDADE: "+self.quantidade+\

@@ -10,7 +10,7 @@ class PedidoDePeca:
         self.pecas.append(PecaQuantidade(peca,quantidade))
     def remover(self,peca):
         self.pecas.remove(peca)
-    def str(self):
+    def __str__(self):
         string  = ""
         for p in self.pecas:
             string += (p.str())
