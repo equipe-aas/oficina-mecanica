@@ -52,3 +52,37 @@ class Fachada:
         self.funcionarios.promover(cpf)
     def __str__funcionario(self):
         return self.funcionarios.__str__()
+
+    def adicionarPeca(self, descricao, fornecedor, preco_custo, preco_venda, quantidade):
+        self.pecas.adicionar( descricao, fornecedor, preco_custo, preco_venda, quantidade)
+    def removerPeca(self,codigo):
+        self.pecas.remover(codigo)
+    def buscarPeca(self,codigo):
+        return self.pecas.buscar(codigo)
+    def __str__peca(self):
+        return self.pecas.__str__()
+
+    def adicionarPedido(self,pedido):
+        self.pedidos.adicionar(pedido)
+    def removerPedido(self,codigo):
+        self.pedidos.remover(codigo)
+    def buscarPedido(self,codigo):
+        return self.pedidos.buscar(codigo)
+    def __str__pedido(self,codigo):
+        return self.pedidos.__str__()
+
+    def adicionarServico(self, descricao, preco_venda, peca):
+        self.servicos.adicionar(descricao, preco_venda, peca)
+    def removerServico(self,codigo):
+        self.servicos.remover(codigo)
+    def buscarServico(self,codigo):
+        return self.servicos.buscar(codigo)
+    def __str__servico(self):
+        return self.servicos.__str__()
+
+    def adicionarVenda(self,venda):
+        self.vendas.adicionar(venda)
+    def removerVenda(self,codigo):
+        self.vendas.remover(codigo)
+    def __str__venda(self):
+        return self.vendas.__str__()
