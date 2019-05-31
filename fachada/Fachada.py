@@ -86,3 +86,6 @@ class Fachada:
         self.vendas.remover(codigo)
     def __str__venda(self):
         return self.vendas.__str__()
+
+    def login(self,log,senha):
+        return self.funcionarios.login(log,senha)

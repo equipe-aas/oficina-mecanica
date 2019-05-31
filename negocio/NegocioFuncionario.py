@@ -3,8 +3,10 @@ from excessoes.CpfJaExisteException import CpfJaExisteException
 from excessoes.CpfNaoEncontradoException import CpfNaoEncontradoException
 from excessoes.RgExisteException import RgExisteException
 from excessoes.NomeInvalidoException import NomeInvalidoException
+from excessoes.SenhaInvalidaException import SenhaInvalidaException
 from excessoes.ValorInvalidoException import ValorInvalidoException
 from excessoes.TelefoneInvalidoException import TelefoneInvalidoException
+from excessoes.LoginInvalidoException import LoginInvalidoException
 from validacao.ValidaDados import ValidaDados
 from entidades.Funcionario import Funcionario
 
@@ -39,6 +41,21 @@ class NegocioFuncionario:
             return funcionario
         else:
             raise CpfNaoEncontradoException(cpf)
+    def login(self,log,senha):
+        funcionario = self.buscarPorLogin(log)
+        if funcionario == None:
+            raise LoginInvalidoException(log)
+        if funcionario.senha == senha:
+            return True
+        else:
+            raise SenhaInvalidaException(senha)
+    def buscarPorLogin(self,login):
+        funcionario = None
+        for i in self.funcionarios.pessoas:
+            if i.login == login:
+                funcionario = i
+                break
+        return funcionario
     def buscarPorRg(self,rg):
         funcionario = None
         for i in self.funcionarios.pessoas:
