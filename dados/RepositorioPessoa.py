@@ -12,7 +12,7 @@ class RepositorioPessoa:
                 pessoa = p
                 break
         return pessoa
-    def str(self):
+    def __str__(self):
         string = ""
         for p in self.pessoas:
             string += p.str + "\n"
