@@ -8,5 +8,5 @@ class Servico:
         string = "CODIGO : " + str(self.codigo) + "\nDESCRICAO: " + str(self.descricao) +\
                  "\nPRECO DE VENDA: R$ " + str(round(self.preco_venda, 2))
         if(self.peca != None):
-            string += self.peca.str()
+            string += self.peca.__str__()
         return string
