@@ -16,11 +16,11 @@ class Fachada:
         self.servicos = NegocioServico()
         self.vendas = NegocioVenda()
     def adicionarCliente(self, cpf, nome, endereco, telefone):
-        self.clientes.adicionar(self, cpf, nome, endereco, telefone)
+        self.clientes.adicionar(cpf, nome, endereco, telefone)
     def removerCliente(self, cpf):
         self.clientes.remover(cpf)
     def buscarCliente(self, cpf):
-        return self.clientes.buscar(self, cpf)
+        return self.clientes.buscar(cpf)
     def __str__cliente(self):
         return self.clientes.__str__()
 
