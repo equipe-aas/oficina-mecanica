@@ -21,7 +21,7 @@ class Fachada:
         self.clientes.remover(cpf)
     def buscarCliente(self, cpf):
         return self.clientes.buscar(cpf)
-    def __str__cliente(self):
+    def str_cliente(self):
         return self.clientes.__str__()
 
     def adicionarFornecedor(self, cnpj, nome, telefone, email, endereco):
@@ -43,7 +43,7 @@ class Fachada:
         return self.funcionarios.buscarPorRg(rg)
     def promoverFuncionario(self, cpf):
         self.funcionarios.promover(cpf)
-    def __str__funcionario(self):
+    def str__funcionario(self):
         return self.funcionarios.__str__()
 
     def adicionarPeca(self, descricao, fornecedor, preco_custo, preco_venda, quantidade):
@@ -52,7 +52,7 @@ class Fachada:
         self.pecas.remover(codigo)
     def buscarPeca(self,codigo):
         return self.pecas.buscar(codigo)
-    def __str__peca(self):
+    def str__peca(self):
         return self.pecas.__str__()
 
     def adicionarPedido(self,pedido):
@@ -61,7 +61,7 @@ class Fachada:
         self.pedidos.remover(codigo)
     def buscarPedido(self,codigo):
         return self.pedidos.buscar(codigo)
-    def __str__pedido(self,codigo):
+    def str__pedido(self,codigo):
         return self.pedidos.__str__()
 
     def adicionarServico(self, descricao, preco_venda, peca):
@@ -77,7 +77,7 @@ class Fachada:
         self.vendas.adicionar(venda)
     def removerVenda(self,codigo):
         self.vendas.remover(codigo)
-    def __str__venda(self):
+    def str__venda(self):
         return self.vendas.__str__()
 
     def login(self,log,senha):
