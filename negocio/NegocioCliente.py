@@ -17,7 +17,7 @@ class NegocioCliente:
             raise CpfJaExisteException(cpf)
         if len(nome)<10:
             raise NomeInvalidoException(nome)
-        if len(telefone < 8):
+        if len(telefone)< 8:
             raise TelefoneInvalidoException(telefone)
         else:
             self.clientes.adicionar(Cliente(cpf, nome, endereco, telefone))
