@@ -12,7 +12,7 @@ class NegocioCliente:
         self.clientes = RepositorioPessoa()
     def adicionar(self, cpf, nome, endereco, telefone):
         if not ValidaDados.__isCpf__(cpf):
-            raise    CpfInvalidoException(cpf)
+            raise CpfInvalidoException(cpf)
         if(self.clientes.buscar(cpf) != None):
             raise CpfJaExisteException(cpf)
         if len(nome)<10:
