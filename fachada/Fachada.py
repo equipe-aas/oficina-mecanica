@@ -7,7 +7,6 @@ from negocio.NegocioServico import NegocioServico
 from negocio.NegocioVenda import NegocioVenda
 
 class Fachada:
-    fachada = None
     def __init__(self):
         self.clientes = NegocioCliente()
         self.fornecedores = NegocioFornecedor()
@@ -16,12 +15,6 @@ class Fachada:
         self.pedidos = NegocioPedido()
         self.servicos = NegocioServico()
         self.vendas = NegocioVenda()
-    @staticmethod
-    def getInstance(self):
-        if Fachada.fachada == None:
-            Fachada.fachada = Fachada()
-        return Fachada.fachada
-
     def adicionarCliente(self, cpf, nome, endereco, telefone):
         self.clientes.adicionar(self, cpf, nome, endereco, telefone)
     def removerCliente(self, cpf):
