@@ -7,7 +7,6 @@ from negocio.NegocioServico import NegocioServico
 from negocio.NegocioVenda import NegocioVenda
 
 class Fachada:
-    fachada = None
     def __init__(self):
         self.clientes = NegocioCliente()
         self.fornecedores = NegocioFornecedor()
@@ -16,19 +15,13 @@ class Fachada:
         self.pedidos = NegocioPedido()
         self.servicos = NegocioServico()
         self.vendas = NegocioVenda()
-    @staticmethod
-    def getInstance(self):
-        if Fachada.fachada == None:
-            Fachada.fachada = Fachada()
-        return Fachada.fachada
-
     def adicionarCliente(self, cpf, nome, endereco, telefone):
-        self.clientes.adicionar(self, cpf, nome, endereco, telefone)
+        self.clientes.adicionar(cpf, nome, endereco, telefone)
     def removerCliente(self, cpf):
         self.clientes.remover(cpf)
     def buscarCliente(self, cpf):
-        return self.clientes.buscar(self, cpf)
-    def __str__cliente(self):
+        return self.clientes.buscar(cpf)
+    def str_cliente(self):
         return self.clientes.__str__()
 
     def adicionarFornecedor(self, cnpj, nome, telefone, email, endereco):
@@ -50,5 +43,42 @@ class Fachada:
         return self.funcionarios.buscarPorRg(rg)
     def promoverFuncionario(self, cpf):
         self.funcionarios.promover(cpf)
-    def __str__funcionario(self):
+    def str__funcionario(self):
         return self.funcionarios.__str__()
+
+    def adicionarPeca(self, descricao, fornecedor, preco_custo, preco_venda, quantidade):
+        self.pecas.adicionar( descricao, fornecedor, preco_custo, preco_venda, quantidade)
+    def removerPeca(self,codigo):
+        self.pecas.remover(codigo)
+    def buscarPeca(self,codigo):
+        return self.pecas.buscar(codigo)
+    def str__peca(self):
+        return self.pecas.__str__()
+
+    def adicionarPedido(self,pedido):
+        self.pedidos.adicionar(pedido)
+    def removerPedido(self,codigo):
+        self.pedidos.remover(codigo)
+    def buscarPedido(self,codigo):
+        return self.pedidos.buscar(codigo)
+    def str__pedido(self,codigo):
+        return self.pedidos.__str__()
+
+    def adicionarServico(self, descricao, preco_venda, peca):
+        self.servicos.adicionar(descricao, preco_venda, peca)
+    def removerServico(self,codigo):
+        self.servicos.remover(codigo)
+    def buscarServico(self,codigo):
+        return self.servicos.buscar(codigo)
+    def __str__servico(self):
+        return self.servicos.__str__()
+
+    def adicionarVenda(self,venda):
+        self.vendas.adicionar(venda)
+    def removerVenda(self,codigo):
+        self.vendas.remover(codigo)
+    def str__venda(self):
+        return self.vendas.__str__()
+
+    def login(self,log,senha):
+        return self.funcionarios.login(log,senha)

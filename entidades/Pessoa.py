@@ -5,5 +5,6 @@ class Pessoa:
         self.endereco = endereco
         self.telefone = telefone
     def __str__(self):
-        string = "CPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nTELEFONE(S): "+self.telefone+self.endereco.str()
+        string = "CPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nTELEFONE(S): "+\
+                 self.telefone+"\nENDERECO: "+self.endereco
         return string

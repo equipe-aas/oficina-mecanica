@@ -22,6 +22,8 @@ class Venda:
                 break
     def __str__(self):
         string = ""
+        total= 0
         for i in self.itens:
-            string += i
+            string += i.calcularTotal()
+        string += "\nTOTAL: R$ "+str(total)
         return string
