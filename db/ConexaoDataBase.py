@@ -1,4 +1,5 @@
 import sqlite3
+from entidades.PecaQuantidade import PecaQuantidade
 from entidades.Cliente import Cliente
 from entidades.Fornecedor import Fornecedor
 from entidades.Funcionario import Funcionario
@@ -126,7 +127,7 @@ class ConexaoDataBase:
         self.cursor.execute(comando, (codigo,))
         self.conexao.commit()
 
-    def todosPecas(self):
+    def todasPecas(self):
         comando = 'SELECT * FROM pecas'
         self.cursor.execute(comando)
         pecas = []
@@ -137,7 +138,7 @@ class ConexaoDataBase:
     def inserirPedido(self, pedido):
         self.cursor.execute(
             'INSERT INTO pedidos(fornecedor_cnpj, data) VALUES(?,?)',
-            (pedido.fornecedor, pedido.data))
+            (pedido.fornecedor.cnpj, pedido.data))
         self.conexao.commit()
 
         ped = self.cursor.execute('SELECT MAX(codigo) FROM pedidos')
@@ -149,4 +150,39 @@ class ConexaoDataBase:
 
     def buscarPedido(self, codigo):
         comando = 'SELECT * FROM pedidos WHERE codigo = ?'
-        pedido = self.cursor.execute(comando, (codigo,)).fetchall()
+        ped = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        comando = 'SELECT * FROM pedido_peca WHERE pedido_codigo = ?'
+        pedido_peca = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        pecas = []
+        for p in pedido_peca:
+            pecas.append(PecaQuantidade(self.buscarPeca(p[0]),p[2]))
+
+        fornecedor = self.buscarFornecedor(ped[0][1])
+        pedido = PedidoDePeca(fornecedor,pecas)
+        pedido.data = ped[0][2]
+        return pedido
+
+    def atualizarPedido(self, pedido):
+        self.deletarPedido(pedido.codigo)
+        self.inserirPedido(pedido)
+
+    def deletarPedido(self,codigo):
+        pedido = self.buscarPedido(codigo)
+
+        comando = 'DELETE FROM pedido_peca WHERE pedido_codigo = ? AND peca_codigo'
+
+        for p in pedido.pecas:
+            self.cursor.execute(comando,(codigo,p.peca.codigo,))
+        self.conexao.commit()
+
+    def todosPedidos(self):
+        comando = 'SELECT * FROM pedido_peca'
+        self.cursor.execute(comando)
+        pedidos = []
+        for p in self.cursor.fetchall():
+            pedidos.append(self.buscarPedido(p[0]))
+        return pedidos
+    #################################### CRUD SERVICOS #####################################################
+    #...
