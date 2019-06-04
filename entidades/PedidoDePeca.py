@@ -2,8 +2,8 @@ from datetime import date
 from entidades.PecaQuantidade import PecaQuantidade
 
 class PedidoDePeca:
-    def __init__(self,fornecedor):
-        self.pecas = []
+    def __init__(self,fornecedor,pecas = []):
+        self.pecas = pecas
         self.fornecedor = fornecedor
         self.data = date.today().strftime('%d/%m/%Y')
     def adicionar(self, peca,quantidade):
