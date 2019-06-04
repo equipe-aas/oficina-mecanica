@@ -1,7 +1,7 @@
 from entidades.Pessoa import Pessoa
 class Funcionario(Pessoa):
     def __init__(self, matricula, rg, cpf, nome, funcao, data_nasc, salario,endereco,telefone):
-        Pessoa.__init__(cpf, nome, endereco, telefone)
+        Pessoa.__init__(self,cpf, nome, endereco, telefone)
         self.matricula = matricula
         self.rg = rg
         self.funcao = funcao
