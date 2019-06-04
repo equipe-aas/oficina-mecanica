@@ -1,0 +1,39 @@
+<Menu>:
+    orientation:'vertical'
+    padding:10
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: 'img/logo3.png'
+    BoxLayout:
+        size_hint_y:None
+        Button:
+            text:'Clientes'
+            font_size:30
+        Button:
+            text:'Fornecedores'
+            font_size:30
+    BoxLayout:
+        size_hint_y:None
+        Button:
+            text:'Pecas'
+            font_size:30
+        Button:
+            text:'Pedidos'
+            font_size:30
+        Button:
+            text:'Servicos'
+            font_size:30
+    BoxLayout:
+        size_hint_y:None
+        Button:
+            text:'Vendas'
+            font_size:30
+        Button:
+            text:'Funcionarios'
+            font_size:30
+        Button:
+            text:'Sair'
+            font_size:30
+            on_release:app.sair()
