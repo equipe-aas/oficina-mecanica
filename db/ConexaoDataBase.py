@@ -5,7 +5,7 @@ from entidades.Fornecedor import Fornecedor
 from entidades.Funcionario import Funcionario
 from entidades.Peca import Peca
 from entidades.PedidoDePeca import PedidoDePeca
-
+from entidades.Servico import Servico
 
 class ConexaoDataBase:
     def __init__(self):
@@ -185,4 +185,49 @@ class ConexaoDataBase:
             pedidos.append(self.buscarPedido(p[0]))
         return pedidos
     #################################### CRUD SERVICOS #####################################################
-    #...
+    def inserirServico(self, servico):
+        if(servico.peca != None):
+            self.cursor.execute(
+                'INSERT INTO servicos(descricao, preco_venda, peca_id) VALUES(?,?,?)',
+                (servico.descricao, servico.preco_venda, servico.peca.codigo))
+        else:
+            self.cursor.execute(
+                'INSERT INTO servicos(descricao, preco_venda, peca_id) VALUES(?,?,?)',
+                (servico.descricao, servico.preco_venda, None))
+        self.conexao.commit()
+
+    def buscarServico(self, codigo):
+        comando = 'SELECT * FROM servicos WHERE codigo = ?'
+        serv = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        if(serv[0][3] != None):
+            servico = Servico(serv[0][0], serv[0][1], serv[0][2], self.buscarPeca(serv[0][3]))
+        else:
+            servico = Servico(serv[0][0], serv[0][1], serv[0][2], None)
+
+        return servico
+
+    def atualizarServico(self, servico):
+        if(servico.peca != None):
+            self.cursor.execute(
+                'UPDATE servicos SET descricao = ?, preco_venda = ?, peca_id = ? WHERE codigo = ?', \
+                (servico.descricao, servico.preco_venda, servico.peca.codigo,servico.codigo))
+        else:
+            self.cursor.execute(
+                'UPDATE servicos SET descricao = ?, preco_venda = ?, peca_id = ? WHERE codigo = ?', \
+                (servico.descricao, servico.preco_venda, None, servico.codigo))
+
+        self.conexao.commit()
+    def deletarServico(self,codigo):
+        comando = 'DELETE FROM servicos WHERE codigo = ?'
+        self.cursor.execute(comando, (codigo,))
+
+        self.conexao.commit()
+
+    def todosServicos(self):
+        comando = 'SELECT * FROM servicos'
+        self.cursor.execute(comando)
+        servicos = []
+        for p in self.cursor.fetchall():
+            servicos.append(Servico(p[0], p[1], p[2], p[3]))
+        return servicos
