@@ -312,7 +312,7 @@ class ConexaoDataBase:
         self.deletarVenda(venda)
         self.inserirVenda(venda)
 
-    def todasVenda(self):
+    def todasVendas(self):
         comando = 'SELECT * FROM venda_peca'
         self.cursor.execute(comando)
         vendas = []
