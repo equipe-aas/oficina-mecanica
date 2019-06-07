@@ -1,5 +1,5 @@
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 
 class NegocioPedido:
     def __init__(self):

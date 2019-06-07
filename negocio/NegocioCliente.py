@@ -1,8 +1,8 @@
 from excessoes.CpfJaExisteException import CpfJaExisteException
 from excessoes.CpfNaoEncontradoException import CpfNaoEncontradoException
-from entidades.Cliente import Cliente
+from negocio.entidades.Cliente import Cliente
 from validacao.ValidaDados import ValidaDados
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 
 class NegocioCliente:
     def __init__(self):

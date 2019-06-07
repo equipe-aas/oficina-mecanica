@@ -1,5 +1,5 @@
 from datetime import datetime
-from entidades.PecaQuantidade import PecaQuantidade
+from negocio.entidades.PecaQuantidade import PecaQuantidade
 
 
 class Venda:

@@ -1,12 +1,12 @@
 import sqlite3
-from entidades.PecaQuantidade import PecaQuantidade
-from entidades.Cliente import Cliente
-from entidades.Fornecedor import Fornecedor
-from entidades.Funcionario import Funcionario
-from entidades.Peca import Peca
-from entidades.PedidoDePeca import PedidoDePeca
-from entidades.Servico import Servico
-from entidades.Venda import Venda
+from negocio.entidades.PecaQuantidade import PecaQuantidade
+from negocio.entidades.Cliente import Cliente
+from negocio.entidades.Fornecedor import Fornecedor
+from negocio.entidades.Funcionario import Funcionario
+from negocio.entidades.Peca import Peca
+from negocio.entidades.PedidoDePeca import PedidoDePeca
+from negocio.entidades.Servico import Servico
+from negocio.entidades.Venda import Venda
 
 
 class ConexaoDataBase:

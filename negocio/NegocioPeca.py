@@ -1,6 +1,6 @@
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
-from entidades.Peca import Peca
-from db.ConexaoDataBase import ConexaoDataBase
+from negocio.entidades.Peca import Peca
+from dados.ConexaoDataBase import ConexaoDataBase
 from validacao.ValidaDados import ValidaDados
 
 class NegocioPeca:

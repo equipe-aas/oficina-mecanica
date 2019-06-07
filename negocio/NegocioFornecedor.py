@@ -1,8 +1,8 @@
 from excessoes.CnpjExisteException import CnpjExisteException
 from excessoes.FornecedorNaoExisteException import FornecedorNaoExisteException
-from entidades.Fornecedor import Fornecedor
+from negocio.entidades.Fornecedor import Fornecedor
 from validacao.ValidaDados import ValidaDados
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 
 class NegocioFornecedor:
     def __init__(self):

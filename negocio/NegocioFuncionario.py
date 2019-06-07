@@ -1,4 +1,4 @@
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
 from excessoes.CpfJaExisteException import CpfJaExisteException
 from excessoes.CpfNaoEncontradoException import CpfNaoEncontradoException
@@ -6,7 +6,7 @@ from excessoes.RgExisteException import RgExisteException
 from excessoes.SenhaInvalidaException import SenhaInvalidaException
 from excessoes.LoginInvalidoException import LoginInvalidoException
 from validacao.ValidaDados import ValidaDados
-from entidades.Funcionario import Funcionario
+from negocio.entidades.Funcionario import Funcionario
 
 class NegocioFuncionario:
     def __init__(self):

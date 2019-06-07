@@ -1,5 +1,5 @@
 from datetime import date
-from entidades.PecaQuantidade import PecaQuantidade
+from negocio.entidades.PecaQuantidade import PecaQuantidade
 
 class PedidoDePeca:
     def __init__(self,fornecedor,pecas = []):

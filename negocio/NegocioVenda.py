@@ -1,4 +1,4 @@
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
 
 class NegocioVenda:

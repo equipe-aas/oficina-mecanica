@@ -1,6 +1,6 @@
-from entidades.Servico import Servico
+from negocio.entidades.Servico import Servico
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
-from db.ConexaoDataBase import ConexaoDataBase
+from dados.ConexaoDataBase import ConexaoDataBase
 from validacao.ValidaDados import ValidaDados
 
 class NegocioServico:
