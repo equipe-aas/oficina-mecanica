@@ -6,6 +6,8 @@ from entidades.Funcionario import Funcionario
 from entidades.Peca import Peca
 from entidades.PedidoDePeca import PedidoDePeca
 from entidades.Servico import Servico
+from entidades.Venda import Venda
+
 
 class ConexaoDataBase:
     def __init__(self):
@@ -20,7 +22,11 @@ class ConexaoDataBase:
     def buscarCliente(self,cpf):
         comando = 'SELECT * FROM clientes WHERE cpf = ?'
         c = self.cursor.execute(comando,(cpf,)).fetchall()
-        return Cliente(c[0][0],c[0][1],c[0][2],c[0][3])
+        if(len(c[0]) < 4):
+            cliente = None
+        else:
+            cliente = Cliente(c[0][0],c[0][1],c[0][2],c[0][3])
+        return cliente
 
     def atualizarCliente(self,cliente):
         self.cursor.execute('UPDATE clientes SET nome = ?,endereco = ?, telefone = ? WHERE cpf = ?',\
@@ -50,7 +56,12 @@ class ConexaoDataBase:
     def buscarFornecedor(self,cnpj):
         comando = 'SELECT * FROM fornecedores WHERE cnpj = ?'
         c = self.cursor.execute(comando,(cnpj,)).fetchall()
-        return Fornecedor(c[0][0],c[0][1],c[0][2],c[0][3],c[0][4])
+
+        if(len(c[0]) < 6):
+            fornecedor = None
+        else:
+            fornecedor = Fornecedor(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4])
+        return fornecedor
 
     def atualizarFornecedor(self,fornecedor):
         self.cursor.execute('UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ?, telefone = ? WHERE cnpj = ?',\
@@ -73,20 +84,26 @@ class ConexaoDataBase:
         return fornecedores
     #################################### CRUD FUNCIONARIOS ######################################################
     def inserirFuncionario(self, func):
-        self.cursor.execute('INSERT INTO funcionarios(rg, cpf, nome, funcao, dataNascimento, salario,endereco,telefone) VALUES(?,?,?,?,?,?,?,?)',
-                            (func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario, func.endereco, func.telefone))
+        comando = 'INSERT INTO funcionarios(rg, cpf, nome, funcao, dataNascimento, salario,endereco,telefone) VALUES(?,?,?,?,?,?,?,?,?)'
+        self.cursor.execute(comando,(func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario,\
+                                     func.endereco, func.telefone,1))
         self.conexao.commit()
 
     def buscarFuncionario(self, matricula):
         comando = 'SELECT * FROM funcionarios WHERE matricula = ?'
         c = self.cursor.execute(comando, (matricula,)).fetchall()
-        return Funcionario(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5], c[0][6], c[0][7])
+        if len(c[0]) < 8:
+            funcionario = None
+        else:
+            funcionario = Funcionario(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5], c[0][6], c[0][7])
+        return funcionario
 
     def atualizarFuncionario(self, func):
-        self.cursor.execute(
-            'UPDATE funcionarios SET rg = ?, cpf = ?, nome = ?, funcao = ?, dataNascimento = ?, salario = ?,\
-             endereco = ?, telefone = ? WHERE matricula = ?',\
-            (func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario, func.endereco, func.telefone,func.matricula))
+        comando = 'UPDATE funcionarios SET rg = ?, cpf = ?, nome = ?, funcao = ?, dataNascimento = ?, salario = ?,\
+                   endereco = ?, telefone = ? WHERE matricula = ?'
+
+        self.cursor.execute(comando,(func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario,\
+                            func.endereco, func.telefone,func.matricula))
 
         self.conexao.commit()
 
@@ -101,13 +118,13 @@ class ConexaoDataBase:
         self.cursor.execute(comando)
         funcionarios = []
         for f in self.cursor.fetchall():
-            funcionarios.append(Fornecedor(f[0], f[1], f[2], f[3], f[4],f[5],f[6],f[7]))
+            funcionarios.append(Funcionario(f[0], f[1], f[2], f[3], f[4],f[5],f[6],f[7]))
         return funcionarios
     #################################### CRUD PECAS ######################################################
     def inserirPeca(self, peca):
         self.cursor.execute(
             'INSERT INTO pecas(descricao, fornecedor_cnpj, preco_custo, preco_venda, quantidade) VALUES(?,?,?,?,?)',
-            (peca.descricao, peca.fornecedor, peca.preco_custo, peca.preco_venda, peca.quantidade))
+            (peca.descricao, peca.fornecedor.cnpj, peca.preco_custo, peca.preco_venda, peca.quantidade))
         self.conexao.commit()
 
     def buscarPeca(self, codigo):
@@ -148,16 +165,21 @@ class ConexaoDataBase:
                 'INSERT INTO pedido_peca(pedido_codigo,peca_codigo,quantidade) VALUES(?,?,?)',
                 (ped[0][0], p.codigo, p.quantidade))
 
+        self.conexao.commit()
+
     def buscarPedido(self, codigo):
         comando = 'SELECT * FROM pedidos WHERE codigo = ?'
         ped = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        if len(ped[0] < 3):
+            return None
 
         comando = 'SELECT * FROM pedido_peca WHERE pedido_codigo = ?'
         pedido_peca = self.cursor.execute(comando, (codigo,)).fetchall()
 
         pecas = []
         for p in pedido_peca:
-            pecas.append(PecaQuantidade(self.buscarPeca(p[0]),p[2]))
+            pecas.append(PecaQuantidade(self.buscarPeca(p[1]),p[2]))
 
         fornecedor = self.buscarFornecedor(ped[0][1])
         pedido = PedidoDePeca(fornecedor,pecas)
@@ -175,6 +197,10 @@ class ConexaoDataBase:
 
         for p in pedido.pecas:
             self.cursor.execute(comando,(codigo,p.peca.codigo,))
+
+        comando = 'DELETE FROM pedidos WHERE codigo = ?'
+        self.cursor.execute(comando, (codigo,))
+
         self.conexao.commit()
 
     def todosPedidos(self):
@@ -218,6 +244,7 @@ class ConexaoDataBase:
                 (servico.descricao, servico.preco_venda, None, servico.codigo))
 
         self.conexao.commit()
+
     def deletarServico(self,codigo):
         comando = 'DELETE FROM servicos WHERE codigo = ?'
         self.cursor.execute(comando, (codigo,))
@@ -231,3 +258,65 @@ class ConexaoDataBase:
         for p in self.cursor.fetchall():
             servicos.append(Servico(p[0], p[1], p[2], p[3]))
         return servicos
+    #################################### CRUD VENDAS #####################################################
+    def inserirVenda(self,venda):
+        self.cursor.execute(
+            'INSERT INTO venda(data) VALUES(?)',
+            (venda.data))
+        self.conexao.commit()
+
+        v = self.cursor.execute('SELECT MAX(codigo) FROM venda')
+
+        for p in venda.pecas:
+            self.cursor.execute(
+                'INSERT INTO venda_peca(venda_codigo, peca_codigo, quantidade, preco_custo, preco_venda) VALUES(?,?,?,?,?)',
+                (v[0][0], p.codigo, p.quantidade, p.preco_compra, p.preco_venda))
+
+        self.conexao.commit()
+
+    def buscarVenda(self,codigo):
+        comando = 'SELECT * FROM venda WHERE codigo = ?'
+        ven = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        if len(ven[0] < 2):
+            return None
+
+        comando = 'SELECT * FROM venda_peca WHERE venda_codigo = ?'
+        venda_peca = self.cursor.execute(comando, (codigo,)).fetchall()
+
+        pecas = []
+        for p in venda_peca:
+            pecaQuant = PecaQuantidade(self.buscarPeca(p[1]),p[2])
+            pecaQuant.preco_custo = p[3]
+            pecaQuant.preco_venda =  p[4]
+            pecas.append(pecaQuant)
+
+        venda = Venda(codigo,pecas)
+        venda.data = ven[0][1]
+        return venda
+
+    def deletarVenda(self,codigo):
+        venda = self.buscarVenda(codigo)
+
+        comando = 'DELETE FROM pedido_peca WHERE pedido_codigo = ? AND peca_codigo'
+
+        for p in venda.pecas:
+            self.cursor.execute(comando, (codigo, p.peca.codigo,))
+
+        comando = 'DELETE FROM venda WHERE codigo = ?'
+        self.cursor.execute(comando, (codigo,))
+
+        self.conexao.commit()
+
+    def atualizarVenda(self,venda):
+        self.deletarVenda(venda)
+        self.inserirVenda(venda)
+
+    def todasVenda(self):
+        comando = 'SELECT * FROM venda_peca'
+        self.cursor.execute(comando)
+        vendas = []
+        for v in self.cursor.fetchall():
+            vendas.append(self.buscarVenda(v[0]))
+        return vendas
+
