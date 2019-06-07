@@ -1,26 +1,27 @@
-from dados.RepositorioPedido import RepositorioPedido
-from excessoes.CodigoJaExisteException import CodigoJaExisteException
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
+from db.ConexaoDataBase import ConexaoDataBase
 
 class NegocioPedido:
     def __init__(self):
-        self.pedidos = RepositorioPedido()
+        self.pedidos = ConexaoDataBase()
     def adicionar(self,pedido):
-        if(self.pedidos.buscar(pedido.codigo)):
-            self.pedidos.adicionar(pedido)
-        else:
-            raise CodigoJaExisteException(pedido.codigo)
+        self.pedidos.inserirPedido(pedido)
     def remover(self,codigo):
-        pedido = self.pedidos.buscar(codigo)
+        pedido = self.pedidos.buscarPedido(codigo)
         if(pedido != None):
-            self.pedidos.remover(pedido)
+            self.pedidos.deletarPedido(codigo)
         else:
-            raise CodigoNaoEncontradoException(pedido.codigo)
+            raise CodigoNaoEncontradoException(codigo)
     def buscar(self,codigo):
-        pedido = self.pedidos.buscar(codigo)
+        pedido = self.pedidos.buscarPedido(codigo)
         if (pedido != None):
             return pedido
         else:
-            raise CodigoNaoEncontradoException(pedido.codigo)
+            raise CodigoNaoEncontradoException(codigo)
+    def all_pedidos(self):
+        return self.pedidos.todosPedidos()
     def __str__(self):
-        return self.pedidos.__str__()
+        string = ""
+        for i in self.pedidos.todosPedidos():
+            string += i.__str__()
+        return string

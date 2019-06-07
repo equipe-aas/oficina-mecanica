@@ -1,38 +1,39 @@
-from dados.RepositorioPessoa import RepositorioPessoa
 from excessoes.CpfJaExisteException import CpfJaExisteException
 from excessoes.CpfNaoEncontradoException import CpfNaoEncontradoException
-from excessoes.CpfInvalidoException import CpfInvalidoException
-from excessoes.NomeInvalidoException import NomeInvalidoException
-from excessoes.TelefoneInvalidoException import TelefoneInvalidoException
 from entidades.Cliente import Cliente
 from validacao.ValidaDados import ValidaDados
+from db.ConexaoDataBase import ConexaoDataBase
 
 class NegocioCliente:
     def __init__(self):
-        self.clientes = RepositorioPessoa()
+        self.clientes = ConexaoDataBase()
     def adicionar(self, cpf, nome, endereco, telefone):
-        if not ValidaDados.__isCpf__(cpf):
-            raise CpfInvalidoException(cpf)
         if(self.clientes.buscar(cpf) != None):
             raise CpfJaExisteException(cpf)
-        if len(nome)<10:
-            raise NomeInvalidoException(nome)
-        if len(telefone)< 8:
-            raise TelefoneInvalidoException(telefone)
-        else:
-            self.clientes.adicionar(Cliente(cpf, nome, endereco, telefone))
+        if ValidaDados.validaCliente(cpf, nome, endereco, telefone):
+            self.clientes.inserirCliente(Cliente(cpf, nome, endereco, telefone))
+
+    def atualizar(self,cliente):
+        if(ValidaDados.validaCliente(cliente.cpf, cliente.nome, cliente.endereco, cliente.telefone)):
+            self.clientes.atualizarCliente(cliente)
+
     def remover(self, cpf):
-        cliente = self.clientes.buscar(cpf)
+        cliente = self.clientes.buscarCliente(cpf)
         if(cliente != None):
-            self.clientes.remover(cliente)
+            self.clientes.deletarCliente(cpf)
         else:
             raise CpfNaoEncontradoException(cpf)
     def buscar(self, cpf):
-        cliente = self.clientes.buscar(cpf)
+        cliente = self.clientes.buscarCliente(cpf)
         if(cliente != None):
             return cliente
         else:
             raise CpfNaoEncontradoException(cpf)
+    def all_clientes(self):
+        return self.clientes.todosClientes()
     def __str__(self):
-        return self.clientes.__str__()
+        string = ""
+        for c in self.clientes.todosClientes():
+            string += c.__str__()
+        return string
 
