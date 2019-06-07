@@ -4,6 +4,7 @@ from entidades.Fornecedor import Fornecedor
 from entidades.Funcionario import Funcionario
 from entidades.Peca import Peca
 from entidades.PedidoDePeca import PedidoDePeca
+from entidades.Servico import Servico
 
 
 class ConexaoDataBase:
@@ -133,6 +134,7 @@ class ConexaoDataBase:
         for p in self.cursor.fetchall():
             pecas.append(Peca(p[0], p[1], p[2], p[3], p[4], p[5]))
         return pecas
+
     #################################### CRUD PEDIDO ######################################################
     def inserirPedido(self, pedido):
         self.cursor.execute(
@@ -150,3 +152,36 @@ class ConexaoDataBase:
     def buscarPedido(self, codigo):
         comando = 'SELECT * FROM pedidos WHERE codigo = ?'
         pedido = self.cursor.execute(comando, (codigo,)).fetchall()
+
+    #################################### CRUD SERVICO ######################################################
+
+    def inserirServico(self, servico):
+        self.cursor.execute(
+            'INSERT INTO servicos(descricao, servico_codigo, preco_venda) VALUES(?,?,?)',
+            (servico.descricao, servico.codigo, servico.preco_venda))
+        self.conexao.commit()
+
+    def buscarServico(self, codigo):
+        comando = 'SELECT * FROM servicos WHERE codigo = ?'
+        c = self.cursor.execute(comando, (codigo,)).fetchall()
+        return Servico(c[0][0], c[0][1], c[0][2], c[0][3])
+
+    def atualizarServico(self, servico):
+        self.cursor.execute(
+            'UPDATE servicos SET descricao = ?, servico_codigo = ?, preco_venda = ? WHERE codigo = ?', \
+            (servico.descricao, servico.codigo, servico.preco_venda, servico.codigo))
+        self.conexao.commit()
+
+    def deletarServico(self, codigo):
+        comando = 'DELETE FROM servicos WHERE codigo = ?'
+
+        self.cursor.execute(comando, (codigo,))
+        self.conexao.commit()
+
+    def todosServico(self):
+        comando = 'SELECT * FROM servicos'
+        self.cursor.execute(comando)
+        servicos = []
+        for p in self.cursor.fetchall():
+            servicos.append(Servico(p[0], p[1], p[2], p[3]))
+        return servicos
