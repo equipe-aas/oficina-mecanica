@@ -11,7 +11,7 @@ from negocio.entidades.Venda import Venda
 
 class ConexaoDataBase:
     def __init__(self):
-        self.conexao = sqlite3.connect('database.sqlite')
+        self.conexao = sqlite3.connect('/home/saucesar/PycharmProjects/oficina-mecanica/db/database.sqlite')
         self.cursor = self.conexao.cursor()
     #################################### CRUD CLIENTES ######################################################
     def inserirCliente(self,cliente):
@@ -22,7 +22,7 @@ class ConexaoDataBase:
     def buscarCliente(self,cpf):
         comando = 'SELECT * FROM clientes WHERE cpf = ?'
         c = self.cursor.execute(comando,(cpf,)).fetchall()
-        if(len(c[0]) < 4):
+        if(len(c) < 4):
             cliente = None
         else:
             cliente = Cliente(c[0][0],c[0][1],c[0][2],c[0][3])
@@ -57,7 +57,7 @@ class ConexaoDataBase:
         comando = 'SELECT * FROM fornecedores WHERE cnpj = ?'
         c = self.cursor.execute(comando,(cnpj,)).fetchall()
 
-        if(len(c[0]) < 6):
+        if(len(c) < 6):
             fornecedor = None
         else:
             fornecedor = Fornecedor(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4])
@@ -92,7 +92,7 @@ class ConexaoDataBase:
     def buscarFuncionario(self, matricula):
         comando = 'SELECT * FROM funcionarios WHERE matricula = ?'
         c = self.cursor.execute(comando, (matricula,)).fetchall()
-        if len(c[0]) < 8:
+        if len(c) < 8:
             funcionario = None
         else:
             funcionario = Funcionario(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5], c[0][6], c[0][7])
@@ -130,7 +130,7 @@ class ConexaoDataBase:
     def buscarPeca(self, codigo):
         comando = 'SELECT * FROM pecas WHERE codigo = ?'
         c = self.cursor.execute(comando, (codigo,)).fetchall()
-        return Peca(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5])
+        return Peca(c[0], c[1], c[2], c[3], c[4], c[5])
 
     def atualizarPeca(self, peca):
         self.cursor.execute(
