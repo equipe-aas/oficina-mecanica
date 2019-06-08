@@ -8,7 +8,7 @@ class NegocioCliente:
     def __init__(self):
         self.clientes = ConexaoDataBase()
     def adicionar(self, cpf, nome, endereco, telefone):
-        if(self.clientes.buscar(cpf) != None):
+        if(self.clientes.buscarCliente(cpf) != None):
             raise CpfJaExisteException(cpf)
         if ValidaDados.validaCliente(cpf, nome, endereco, telefone):
             self.clientes.inserirCliente(Cliente(cpf, nome, endereco, telefone))
