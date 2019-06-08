@@ -3,8 +3,8 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.config import Config
 from GUI.menu.MenuPrincipal import MenuPrincipal
 
-Config.set('graphics', 'width', '700')
-Config.set('graphics', 'height', '500')
+Config.set('graphics', 'width', '800')
+Config.set('graphics', 'height', '600')
 
 class Tela(GridLayout):
     pass

@@ -15,14 +15,20 @@
             size_hint_y:None
             font_size:40
     BoxLayout:
+
         Label:
             text:'\nSENHA =>'
             font_size:40
         TextInput:
             id: senha
-            password: True
+            password: not exibir.active
             size_hint_y:None
             font_size:40
+    BoxLayout:
+        Label:
+            text:'______________________________________________________________________________________________Exibir Senha?'
+        CheckBox:
+            id:exibir
     BoxLayout:
         Button:
             text:'Entrar'

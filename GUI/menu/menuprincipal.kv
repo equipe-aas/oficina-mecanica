@@ -1,39 +1,118 @@
-<Menu>:
-    orientation:'vertical'
-    padding:10
+<MenuInicial>:
     canvas.before:
         Rectangle:
             pos: self.pos
             size: self.size
             source: 'img/logo3.png'
-    BoxLayout:
-        size_hint_y:None
+    Screen:
+        name:'menu'
+        GridLayout:
+            orientation:'vertical'
+            cols:3
+            Button:
+                text:'Menu\nClientes'
+                font_size:30
+                size_hint_y:None
+                on_release:root.current = 'menuCliente'
+            Button:
+                text:'Menu\nFuncionarios'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Menu\nFornecedores'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Menu\nPecas'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Menu\nPedidos'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Menu\nServicos'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Menu\nVendas'
+                font_size:30
+                size_hint_y:None
         Button:
-            text:'Clientes'
+            text:'Encerrar'
             font_size:30
-        Button:
-            text:'Fornecedores'
+            size_hint_y:None
+            on_release:app.stop()
+
+    Screen:
+        name:'menuCliente'
+        GridLayout:
+            orientation:'vertical'
+            cols:3
+            Button:
+                text:'Novo\nCliente'
+                font_size:35
+                size_hint_y:None
+                on_release:root.current = 'cadastrarCliente'
+            Button:
+                text:'Editar\nCliente'
+                font_size:35
+                size_hint_y:None
+            Button:
+                text:'Deletar\nCliente'
+                font_size:30
+                size_hint_y:None
+            Button:
+                text:'Listar\nClientes'
+                font_size:30
+                size_hint_y:None
+        Button
+            text:'Menu Pricipal'
             font_size:30
-    BoxLayout:
-        size_hint_y:None
-        Button:
-            text:'Pecas'
-            font_size:30
-        Button:
-            text:'Pedidos'
-            font_size:30
-        Button:
-            text:'Servicos'
-            font_size:30
-    BoxLayout:
-        size_hint_y:None
-        Button:
-            text:'Vendas'
-            font_size:30
-        Button:
-            text:'Funcionarios'
-            font_size:30
-        Button:
-            text:'Sair'
-            font_size:30
-            on_release:app.sair()
+            size_hint_y:None
+            on_release:root.current = 'menu'
+    Screen:
+        name:'cadastrarCliente'
+        GridLayout:
+            cols:1
+            BoxLayout:
+                Label:
+                    text:'CPF : '
+                    font_size:40
+                TextInput:
+                    id: cpf
+                    size_hint_y:None
+                    font_size:40
+            BoxLayout:
+                Label:
+                    text:'NOME : '
+                    font_size:40
+                TextInput:
+                    id: nome
+                    size_hint_y:None
+                    font_size:35
+            BoxLayout:
+                Label:
+                    text:'ENDERECO : '
+                    font_size:35
+                TextInput:
+                    id: endereco
+                    size_hint_y:None
+                    font_size:35
+            BoxLayout:
+                Label:
+                    text:'TELEFONE : '
+                    font_size:35
+                TextInput:
+                    id: telefone
+                    size_hint_y:None
+                    font_size:35
+            BoxLayout:
+                Button:
+                    text:'Salvar'
+                    font_size:35
+                    on_release:app.cadastrarCliente(cpf.text,nome.text,endereco.text,telefone.text)\
+                Button:
+                    text:'Voltar'
+                    font_size:35
+                    on_release:root.current = 'menuCliente'
