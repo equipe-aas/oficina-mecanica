@@ -5,6 +5,8 @@ from negocio.NegocioPeca import NegocioPeca
 from negocio.NegocioPedido import NegocioPedido
 from negocio.NegocioServico import NegocioServico
 from negocio.NegocioVenda import NegocioVenda
+from negocio.entidades.Cliente import Cliente
+
 
 class Fachada:
     def __init__(self):
@@ -17,6 +19,8 @@ class Fachada:
         self.vendas = NegocioVenda()
     def adicionarCliente(self, cpf, nome, endereco, telefone):
         self.clientes.adicionar(cpf, nome, endereco, telefone)
+    def atualizarCliente(self, cpf, nome, endereco, telefone):
+        self.clientes.atualizar(Cliente(cpf, nome, endereco, telefone))
     def removerCliente(self, cpf):
         self.clientes.remover(cpf)
     def buscarCliente(self, cpf):
