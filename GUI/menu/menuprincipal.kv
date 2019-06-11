@@ -1,118 +1,230 @@
-<MenuInicial>:
+#:set pad 15
+#:set spa 15
+
+<Botao@Button>:
+    font_size:25
+    size_hint_y:None
+    height:80
+<Entrada@TextInput>:
+    font_size:25
+    size_hint_y:None
+    height:40
+<Texto@Label>:
+    font_size:25
+
+<Menu>:
     canvas.before:
         Rectangle:
             pos: self.pos
             size: self.size
-            source: 'img/logo3.png'
+            source: '/home/saucesar/PycharmProjects/oficina-mecanica/GUI/img/logo3.png'
+    Screen:
+        name:'telaLogin'
+        GridLayout:
+            cols:1
+            padding:pad
+            spacing:spa
+            BoxLayout:
+                Texto:
+                    text:'\n\nLOGIN =>'
+                Entrada:
+                    id: login
+            BoxLayout:
+
+                Texto:
+                    text:'\n\nSENHA =>'
+                Entrada:
+                    id: senha
+                    password: not exibir.active
+            BoxLayout:
+                Texto:
+                    text:'_______________________________________Exibir Senha?'
+                CheckBox:
+                    id:exibir
+            BoxLayout:
+                padding:10
+                spacing:10
+                Botao:
+                    text:'Entrar'
+                    on_release:app.login(login.text,senha.text,login,senha)
+                Botao:
+                    text:'Sair'
+                    on_release:app.stop()
     Screen:
         name:'menu'
         GridLayout:
+            padding:pad
+            spacing:spa
             orientation:'vertical'
-            cols:3
-            Button:
-                text:'Menu\nClientes'
-                font_size:30
-                size_hint_y:None
-                on_release:root.current = 'menuCliente'
-            Button:
-                text:'Menu\nFuncionarios'
-                font_size:30
-                size_hint_y:None
-            Button:
-                text:'Menu\nFornecedores'
-                font_size:30
-                size_hint_y:None
-            Button:
-                text:'Menu\nPecas'
-                font_size:30
-                size_hint_y:None
-            Button:
-                text:'Menu\nPedidos'
-                font_size:30
-                size_hint_y:None
-            Button:
-                text:'Menu\nServicos'
-                font_size:30
-                size_hint_y:None
-            Button:
-                text:'Menu\nVendas'
-                font_size:30
-                size_hint_y:None
-        Button:
-            text:'Encerrar'
-            font_size:30
-            size_hint_y:None
-            on_release:app.stop()
+            cols:1
+            BoxLayout:
+                Botao:
+                    text:'Menu\nClientes'
+                    on_release:root.current = 'menuCliente'
+                Botao:
+                    text:'Menu\nFuncionarios'
+                Botao:
+                    text:'Menu\nFornecedores'
+            BoxLayout:
+                Botao:
+                    text:'Menu\nPecas'
+                Botao:
+                    text:'Menu\nPedidos'
+                Botao:
+                    text:'Menu\nServicos'
+            BoxLayout:
+                Botao:
+                    text:'Menu\nVendas'
+            BoxLayout:
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'telaLogin'
+                Botao:
+                    text:'Encerrar'
+                    on_release:app.stop()
 
     Screen:
         name:'menuCliente'
         GridLayout:
+            padding:pad
+            spacing:spa
             orientation:'vertical'
             cols:3
-            Button:
+            Botao:
                 text:'Novo\nCliente'
-                font_size:35
-                size_hint_y:None
                 on_release:root.current = 'cadastrarCliente'
-            Button:
+            Botao:
+                text:'Buscar\nCliente'
+                on_release:root.current = 'buscarCliente'
+            Botao:
                 text:'Editar\nCliente'
-                font_size:35
-                size_hint_y:None
-            Button:
+                on_release:root.current = 'buscarCliente'
+            Botao:
                 text:'Deletar\nCliente'
-                font_size:30
-                size_hint_y:None
-            Button:
+                on_release:root.current = 'deletarCliente'
+            Botao:
                 text:'Listar\nClientes'
-                font_size:30
-                size_hint_y:None
-        Button
+                on_release:app.listarClientes(clientes)
+        Botao
             text:'Menu Pricipal'
-            font_size:30
-            size_hint_y:None
             on_release:root.current = 'menu'
     Screen:
         name:'cadastrarCliente'
         GridLayout:
+            padding:pad
+            spacing:spa
             cols:1
             BoxLayout:
-                Label:
-                    text:'CPF : '
-                    font_size:40
-                TextInput:
+                Texto:
+                    text:'\n\nCPF : '
+                Entrada:
                     id: cpf
-                    size_hint_y:None
-                    font_size:40
             BoxLayout:
-                Label:
-                    text:'NOME : '
-                    font_size:40
-                TextInput:
+                Texto:
+                    text:'\n\nNOME : '
+                Entrada:
                     id: nome
-                    size_hint_y:None
-                    font_size:35
             BoxLayout:
-                Label:
-                    text:'ENDERECO : '
-                    font_size:35
-                TextInput:
+                Texto:
+                    text:'\n\nENDERECO : '
+                Entrada:
                     id: endereco
-                    size_hint_y:None
-                    font_size:35
             BoxLayout:
-                Label:
-                    text:'TELEFONE : '
-                    font_size:35
-                TextInput:
+                Texto:
+                    text:'\n\nTELEFONE : '
+                Entrada:
                     id: telefone
-                    size_hint_y:None
-                    font_size:35
             BoxLayout:
-                Button:
+                Botao:
                     text:'Salvar'
-                    font_size:35
-                    on_release:app.cadastrarCliente(cpf.text,nome.text,endereco.text,telefone.text)\
-                Button:
+                    on_release:app.cadastrarCliente(cpf.text,nome.text,endereco.text,telefone.text,cpf,nome,endereco,telefone)
+                Botao:
                     text:'Voltar'
-                    font_size:35
                     on_release:root.current = 'menuCliente'
+    Screen:
+        name:'editarCliente'
+        GridLayout:
+            id:grid
+            spacing:spa
+            padding:pad
+            cols:1
+            BoxLayout:
+                Texto:
+                    text:'\n\nCPF : '
+                Entrada:
+                    id: Ecpf
+                    text: app.getCliente().cpf
+                    disabled: True
+            BoxLayout:
+                Texto:
+                    text:'\n\nNOME : '
+                Entrada:
+                    id: Enome
+                    text: app.getCliente().nome
+            BoxLayout:
+                Texto:
+                    text:'\n\nENDERECO : '
+                Entrada:
+                    id: Eendereco
+                    text: app.getCliente().endereco
+            BoxLayout:
+                Texto:
+                    text:'\n\nTELEFONE : '
+                Entrada:
+                    id: Etelefone
+                    text: app.getCliente().telefone
+            BoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarCliente(Ecpf.text,Enome.text,Eendereco.text,Etelefone.text)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+    Screen:
+        name:'buscarCliente'
+        GridLayout:
+            padding:pad
+            spacing:spa
+            cols:1
+            BoxLayout:
+                Texto:
+                    text:'\n\n\n\n\n\nCPF : '
+                Entrada:
+                    id: Bcpf
+            BoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release: app.buscarCliente(Bcpf.text,Ecpf,Enome,Eendereco,Etelefone,Bcpf)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+    Screen:
+        name:'deletarCliente'
+        GridLayout:
+            padding:pad
+            spacing:spa
+            cols:1
+            BoxLayout:
+                Texto:
+                    text:'\n\n\n\n\n\nCPF : '
+                Entrada:
+                    id: Dcpf
+            BoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarCliente(Dcpf.text,Dcpf)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+
+    Screen:
+        name:'listarClientes'
+        BoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                Texto:
+                    id:clientes
+        BoxLayout:
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuCliente'
