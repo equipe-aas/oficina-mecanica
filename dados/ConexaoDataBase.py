@@ -22,7 +22,7 @@ class ConexaoDataBase:
     def buscarCliente(self,cpf):
         comando = 'SELECT * FROM clientes WHERE cpf = ?'
         c = self.cursor.execute(comando,(cpf,)).fetchall()
-        if(len(c) < 4):
+        if(len(c) < 1):
             cliente = None
         else:
             cliente = Cliente(c[0][0],c[0][1],c[0][2],c[0][3])
@@ -57,15 +57,15 @@ class ConexaoDataBase:
         comando = 'SELECT * FROM fornecedores WHERE cnpj = ?'
         c = self.cursor.execute(comando,(cnpj,)).fetchall()
 
-        if(len(c) < 6):
+        if(len(c) < 1):
             fornecedor = None
         else:
             fornecedor = Fornecedor(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4])
         return fornecedor
 
     def atualizarFornecedor(self,fornecedor):
-        self.cursor.execute('UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ?, telefone = ? WHERE cnpj = ?',\
-                              (fornecedor.nome, fornecedor.telefone,fornecedor.email,fornecedor.endereco,fornecedor.cnpj))
+        comando = 'UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ?, telefone = ? WHERE cnpj = ?'
+        self.cursor.execute(comando,(fornecedor.nome, fornecedor.telefone,fornecedor.email,fornecedor.endereco,fornecedor.cnpj))
 
         self.conexao.commit()
 
@@ -84,26 +84,29 @@ class ConexaoDataBase:
         return fornecedores
     #################################### CRUD FUNCIONARIOS ######################################################
     def inserirFuncionario(self, func):
-        comando = 'INSERT INTO funcionarios(rg, cpf, nome, funcao, dataNascimento, salario,endereco,telefone) VALUES(?,?,?,?,?,?,?,?,?)'
+        comando = 'INSERT INTO funcionarios(rg, cpf, nome, funcao, dataNascimento, salario,endereco,telefone,login,senha)\
+                   VALUES(?,?,?,?,?,?,?,?,?,?)'
         self.cursor.execute(comando,(func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario,\
-                                     func.endereco, func.telefone,1))
+                                     func.endereco, func.telefone,func.login,func.senha,))
         self.conexao.commit()
 
     def buscarFuncionario(self, matricula):
         comando = 'SELECT * FROM funcionarios WHERE matricula = ?'
         c = self.cursor.execute(comando, (matricula,)).fetchall()
-        if len(c) < 8:
+        if len(c) < 1:
             funcionario = None
         else:
-            funcionario = Funcionario(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5], c[0][6], c[0][7])
+            funcionario = Funcionario(c[0][0], c[0][1], c[0][2], c[0][3], c[0][4], c[0][5], c[0][6], c[0][7],c[0][8])
+            funcionario.login = c[0][9]
+            funcionario.senha = c[0][10]
         return funcionario
 
     def atualizarFuncionario(self, func):
         comando = 'UPDATE funcionarios SET rg = ?, cpf = ?, nome = ?, funcao = ?, dataNascimento = ?, salario = ?,\
-                   endereco = ?, telefone = ? WHERE matricula = ?'
+                   endereco = ?, telefone = ?, login = ?, senha = ? WHERE matricula = ?'
 
         self.cursor.execute(comando,(func.rg, func.cpf, func.nome, func.funcao, func.data_nasc, func.salario,\
-                            func.endereco, func.telefone,func.matricula))
+                            func.endereco, func.telefone, func.login, func.senha, func.matricula))
 
         self.conexao.commit()
 
@@ -118,7 +121,10 @@ class ConexaoDataBase:
         self.cursor.execute(comando)
         funcionarios = []
         for f in self.cursor.fetchall():
-            funcionarios.append(Funcionario(f[0], f[1], f[2], f[3], f[4],f[5],f[6],f[7]))
+            func = Funcionario(f[0], f[1], f[2], f[3], f[4],f[5],f[6],f[7],f[8])
+            func.login = f[9]
+            func.senha = f[10]
+            funcionarios.append(func)
         return funcionarios
     #################################### CRUD PECAS ######################################################
     def inserirPeca(self, peca):
@@ -130,6 +136,8 @@ class ConexaoDataBase:
     def buscarPeca(self, codigo):
         comando = 'SELECT * FROM pecas WHERE codigo = ?'
         c = self.cursor.execute(comando, (codigo,)).fetchall()
+        if len(c) < 1:
+            return None
         return Peca(c[0], c[1], c[2], c[3], c[4], c[5])
 
     def atualizarPeca(self, peca):
@@ -171,7 +179,7 @@ class ConexaoDataBase:
         comando = 'SELECT * FROM pedidos WHERE codigo = ?'
         ped = self.cursor.execute(comando, (codigo,)).fetchall()
 
-        if len(ped[0] < 3):
+        if len(ped) < 1:
             return None
 
         comando = 'SELECT * FROM pedido_peca WHERE pedido_codigo = ?'
@@ -225,7 +233,8 @@ class ConexaoDataBase:
     def buscarServico(self, codigo):
         comando = 'SELECT * FROM servicos WHERE codigo = ?'
         serv = self.cursor.execute(comando, (codigo,)).fetchall()
-
+        if len(serv) < 1:
+            return None
         if(serv[0][3] != None):
             servico = Servico(serv[0][0], serv[0][1], serv[0][2], self.buscarPeca(serv[0][3]))
         else:
@@ -278,7 +287,7 @@ class ConexaoDataBase:
         comando = 'SELECT * FROM venda WHERE codigo = ?'
         ven = self.cursor.execute(comando, (codigo,)).fetchall()
 
-        if len(ven[0] < 2):
+        if len(ven < 1):
             return None
 
         comando = 'SELECT * FROM venda_peca WHERE venda_codigo = ?'
@@ -319,4 +328,3 @@ class ConexaoDataBase:
         for v in self.cursor.fetchall():
             vendas.append(self.buscarVenda(v[0]))
         return vendas
-
