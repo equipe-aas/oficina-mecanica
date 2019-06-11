@@ -1,7 +1,9 @@
-from negocio.entidades.Pessoa import Pessoa
-class Funcionario(Pessoa):
-    def __init__(self, matricula, rg, cpf, nome, funcao, data_nasc, salario,endereco,telefone):
-        Pessoa.__init__(self,cpf, nome, endereco, telefone)
+class Funcionario:
+    def __init__(self, matricula, rg, cpf, nome, funcao, data_nasc, salario, endereco, telefone):
+        self.cpf = cpf
+        self.nome = nome
+        self.endereco = endereco
+        self.telefone = telefone
         self.matricula = matricula
         self.rg = rg
         self.funcao = funcao
@@ -14,7 +16,7 @@ class Funcionario(Pessoa):
         else:
             self.is_gerente = False
     def __str__(self):
-        string = "MATRICULA: "+str(self.matricula)+"\nRG: "+str(self.rg)+"\nCPF: "+str(self.cpf)+"\nNOME: "+self.nome+\
-                 "\nFUNCAO: "+self.funcao+"DATA NASCIMENTO: "+str(self.data_nasc)+"SALARIO: R$ "+round(self.salario,2)+\
-                 "\n"+self.endereco.str()
+        string = "\nMATRICULA: "+str(self.matricula)+"\nRG: "+str(self.rg)+"\nCPF: "+str(self.cpf)+"\nNOME: "+self.nome+\
+                 "\nFUNCAO: "+self.funcao+"\nDATA NASCIMENTO: "+str(self.data_nasc)+"\nSALARIO: R$ "+str(round(self.salario,2))+\
+                 "\nTELEFONE: "+self.telefone+"\nENDERECO: "+self.endereco
         return string
