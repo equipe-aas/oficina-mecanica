@@ -5,6 +5,5 @@ class Cliente:
         self.endereco = endereco
         self.telefone = telefone
     def __str__(self):
-        string = "\nCPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nTELEFONE(S): "+\
-                 self.telefone+"\nENDERECO: "+self.endereco
+        string = "CPF: "+str(self.cpf)+"\nNOME: "+self.nome+"\nTELEFONE: "+self.telefone+"\nENDERECO: "+self.endereco+'\n'
         return string
