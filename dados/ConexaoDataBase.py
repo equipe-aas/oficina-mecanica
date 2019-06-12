@@ -64,7 +64,7 @@ class ConexaoDataBase:
         return fornecedor
 
     def atualizarFornecedor(self,fornecedor):
-        comando = 'UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ?, telefone = ? WHERE cnpj = ?'
+        comando = 'UPDATE fornecedores SET nome = ?, telefone = ?, email = ?, endereco = ? WHERE cnpj = ?'
         self.cursor.execute(comando,(fornecedor.nome, fornecedor.telefone,fornecedor.email,fornecedor.endereco,fornecedor.cnpj))
 
         self.conexao.commit()
