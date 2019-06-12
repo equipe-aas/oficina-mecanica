@@ -328,6 +328,3 @@ class ConexaoDataBase:
         for v in self.cursor.fetchall():
             vendas.append(self.buscarVenda(v[0]))
         return vendas
-
-con = ConexaoDataBase()
-print(con.buscarPeca(1))
