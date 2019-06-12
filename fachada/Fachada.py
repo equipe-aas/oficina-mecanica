@@ -6,6 +6,7 @@ from negocio.NegocioPedido import NegocioPedido
 from negocio.NegocioServico import NegocioServico
 from negocio.NegocioVenda import NegocioVenda
 from negocio.entidades.Cliente import Cliente
+from negocio.entidades.Fornecedor import Fornecedor
 
 
 class Fachada:
@@ -30,6 +31,8 @@ class Fachada:
 
     def adicionarFornecedor(self, cnpj, nome, telefone, email, endereco):
         self.fornecedores.adicionar(cnpj, nome, telefone, email, endereco)
+    def atualizarFornecedor(self, cnpj, nome, telefone, email, endereco):
+        self.fornecedores.atualizar(Fornecedor(cnpj, nome, telefone, email, endereco))
     def removerFornecedor(self,cnpj):
         self.fornecedores.remover(cnpj)
     def buscarFornecedor(self, cnpj):
