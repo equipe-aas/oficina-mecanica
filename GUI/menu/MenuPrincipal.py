@@ -55,7 +55,7 @@ class MenuPrincipal(App):
 
     def cadastrarCliente(self,EntradaCpf,EntradaNome,EntradaEndereco,EntradaTelefone):
         try:
-            Fachada().adicionarCliente(EntradaCpf.text,EntradaNome.text,EntradaEndereco.text,EntradaTelefone.text)
+            self.fachada.adicionarCliente(EntradaCpf.text,EntradaNome.text,EntradaEndereco.text,EntradaTelefone.text)
             MyPopup('Cliente Cadastrado!!!')
 
             EntradaCpf.text = ''
@@ -94,6 +94,68 @@ class MenuPrincipal(App):
                 boxClientes.add_widget(label)
 
             self.menuInicial.current = 'listarClientes'
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def listarFornecedores(self, boxFornecedor):
+        try:
+            boxFornecedor.clear_widgets()
+            for fornecedor in self.fachada.fornecedores.all_fornecedores():
+                label = Label(text=fornecedor.__str__(), size_hint_y=None, height=self.height, font_size=self.tamanhoFonte)
+                boxFornecedor.add_widget(label)
+
+            self.menuInicial.current = 'listarFornecedores'
+        except BaseException as e:
+            MyPopup(e.__str__())
+    def cadastrarFornecedor(self,EntradaCnpj,EntradaNome,EntradaTelefone,EntradaEmail,EntradaEndereco):
+        try:
+            self.fachada.adicionarFornecedor(EntradaCnpj.text, EntradaNome.text, EntradaTelefone.text,\
+                                             EntradaEmail.text, EntradaEndereco.text)
+
+            MyPopup('Fornecedor Cadastrado!!!')
+
+            EntradaCnpj.text = ''
+            EntradaNome.text = ''
+            EntradaTelefone.text = ''
+            EntradaEmail.text = ''
+            EntradaEndereco.text = ''
+
+            self.menuInicial.current = 'menuFornecedor'
+        except BaseException as e:
+            MyPopup(e.__str__())
+    def editarFornecedor(self,EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn):
+        try:
+            self.fachada.atualizarFornecedor(EditCnpj.text, EditNomeForn.text, EditTelefoneForn.text,\
+                                             EditEmailForn.text, EditEnderecoForn.text)
+            MyPopup('Modificações Salvas!!!')
+            self.menuInicial.current = 'menuCliente'
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def buscarFornecedor(self,BuscarCnpj,EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn):
+        try:
+
+            self.fornecedor = self.fachada.buscarFornecedor(BuscarCnpj.text)
+            BuscarCnpj.text = ''
+
+            EditCnpj.text = self.fornecedor.cnpj
+            EditNomeForn.text = self.fornecedor.nome
+            EditTelefoneForn.text = self.fornecedor.telefone
+            EditEmailForn.text = self.fornecedor.email
+            EditEnderecoForn.text = self.fornecedor.endereco
+
+            self.menuInicial.current = 'editarFornecedor'
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+    def deletarFornecedor(self,DeletarCnpj):
+        try:
+            self.fachada.removerFornecedor(DeletarCnpj.text)
+            DeletarCnpj.text = ''
+
+            MyPopup('Fornecedor Removido!!!')
+
         except BaseException as e:
             MyPopup(e.__str__())
 

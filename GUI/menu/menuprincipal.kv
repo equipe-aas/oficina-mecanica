@@ -64,9 +64,10 @@
                     text:'Menu\nClientes'
                     on_release:root.current = 'menuCliente'
                 Botao:
-                    text:'Menu\nFuncionarios'
-                Botao:
                     text:'Menu\nFornecedores'
+                    on_release:root.current = 'menuFornecedor'
+                Botao:
+                    text:'Menu\nFuncionarios'
                 Botao:
                     text:'Menu\nPecas'
                 Botao:
@@ -214,3 +215,139 @@
             Botao:
                 text:'Voltar'
                 on_release:root.current = 'menuCliente'
+    Screen:
+        name:'menuFornecedor'
+        MeuGridLayout:
+            cols:3
+            Botao:
+                text:'Novo\nFornecedor'
+                on_release:root.current = 'cadastrarFornecedor'
+            Botao:
+                text:'Buscar\nFornecedor'
+                on_release:root.current = 'buscarFornecedor'
+            Botao:
+                text:'Editar\nFornecedor'
+                on_release:root.current = 'buscarFornecedor'
+            Botao:
+                text:'Deletar\nFornecedor'
+                on_release:root.current = 'deletarFornecedor'
+            Botao:
+                text:'Listar\nFornecedores'
+                on_release:app.listarFornecedores(boxFornecedor)
+        Botao:
+            text:'Menu Pricipal'
+            on_release:root.current = 'menu'
+    Screen:
+        name:'cadastrarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ : '
+                Entrada:
+                    id: EntCnpj
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EntNomeForn
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE :'
+                Entrada:
+                    id: EntTelefoneForn
+            MeuBoxLayout:
+                Texto:
+                    text:'EMAIL : '
+                Entrada:
+                    id: EntEmailForn
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EntEnderecoForn
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.cadastrarFornecedor(EntCnpj,EntNomeForn,EntTelefoneForn,EntEmailForn,EntEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'editarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ : '
+                Entrada:
+                    id: EditCnpj
+                    disabled: True
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EditNomeForn
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE :'
+                Entrada:
+                    id: EditTelefoneForn
+            MeuBoxLayout:
+                Texto:
+                    text:'EMAIL : '
+                Entrada:
+                    id: EditEmailForn
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EditEnderecoForn
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarFornecedor(EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'buscarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCNPJ : '
+                Entrada:
+                    id: BuscarCnpj
+            MeuBoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release: app.buscarFornecedor(BuscarCnpj,EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'listarFornecedores'
+        MeuBoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxFornecedor
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'deletarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCNPJ : '
+                Entrada:
+                    id: DeletarCnpj
+            MeuBoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarFornecedor(DeletarCnpj)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
