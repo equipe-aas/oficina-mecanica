@@ -5,12 +5,23 @@
     font_size:25
     size_hint_y:None
     height:80
+
 <Entrada@TextInput>:
     font_size:25
     size_hint_y:None
     height:40
+
 <Texto@Label>:
     font_size:25
+
+<MeuBoxLayout@BoxLayout>:
+    padding:pad
+    spacing:spa
+
+<MeuGridLayout@GridLayout>:
+    cols:1
+    padding:pad
+    spacing:spa
 
 <Menu>:
     canvas.before:
@@ -20,30 +31,24 @@
             source: '/home/saucesar/PycharmProjects/oficina-mecanica/GUI/img/logo3.png'
     Screen:
         name:'telaLogin'
-        GridLayout:
-            cols:1
-            padding:pad
-            spacing:spa
-            BoxLayout:
+        MeuGridLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nLOGIN =>'
+                    text:'\nLOGIN =>'
                 Entrada:
                     id: login
-            BoxLayout:
-
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nSENHA =>'
+                    text:'\nSENHA =>'
                 Entrada:
                     id: senha
                     password: not exibir.active
-            BoxLayout:
+            MeuBoxLayout:
                 Texto:
                     text:'_______________________________________Exibir Senha?'
                 CheckBox:
                     id:exibir
-            BoxLayout:
-                padding:10
-                spacing:10
+            MeuBoxLayout:
                 Botao:
                     text:'Entrar'
                     on_release:app.login(login.text,senha.text,login,senha)
@@ -52,12 +57,9 @@
                     on_release:app.stop()
     Screen:
         name:'menu'
-        GridLayout:
-            padding:pad
-            spacing:spa
-            orientation:'vertical'
-            cols:1
-            BoxLayout:
+        MeuGridLayout:
+            MeuGridLayout:
+                cols:3
                 Botao:
                     text:'Menu\nClientes'
                     on_release:root.current = 'menuCliente'
@@ -65,17 +67,15 @@
                     text:'Menu\nFuncionarios'
                 Botao:
                     text:'Menu\nFornecedores'
-            BoxLayout:
                 Botao:
                     text:'Menu\nPecas'
                 Botao:
                     text:'Menu\nPedidos'
                 Botao:
                     text:'Menu\nServicos'
-            BoxLayout:
                 Botao:
                     text:'Menu\nVendas'
-            BoxLayout:
+            MeuBoxLayout:
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'telaLogin'
@@ -85,10 +85,7 @@
 
     Screen:
         name:'menuCliente'
-        GridLayout:
-            padding:pad
-            spacing:spa
-            orientation:'vertical'
+        MeuGridLayout:
             cols:3
             Botao:
                 text:'Novo\nCliente'
@@ -104,127 +101,116 @@
                 on_release:root.current = 'deletarCliente'
             Botao:
                 text:'Listar\nClientes'
-                on_release:app.listarClientes(clientes)
+                on_release:app.listarClientes(boxClientes)
         Botao
             text:'Menu Pricipal'
             on_release:root.current = 'menu'
     Screen:
         name:'cadastrarCliente'
-        GridLayout:
-            padding:pad
-            spacing:spa
-            cols:1
-            BoxLayout:
+        MeuGridLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nCPF : '
+                    text:'CPF : '
                 Entrada:
-                    id: cpf
-            BoxLayout:
+                    id: EntradaCpf
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nNOME : '
+                    text:'NOME : '
                 Entrada:
-                    id: nome
-            BoxLayout:
+                    id: EntradaNome
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nENDERECO : '
+                    text:'ENDERECO : '
                 Entrada:
-                    id: endereco
-            BoxLayout:
+                    id: EntradaEndereco
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nTELEFONE : '
+                    text:'TELEFONE : '
                 Entrada:
-                    id: telefone
-            BoxLayout:
+                    id: EntradaTelefone
+            MeuBoxLayout:
                 Botao:
                     text:'Salvar'
-                    on_release:app.cadastrarCliente(cpf.text,nome.text,endereco.text,telefone.text,cpf,nome,endereco,telefone)
+                    on_release:app.cadastrarCliente(EntradaCpf,EntradaNome,EntradaEndereco,EntradaTelefone)
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'menuCliente'
     Screen:
         name:'editarCliente'
-        GridLayout:
-            id:grid
-            spacing:spa
-            padding:pad
-            cols:1
-            BoxLayout:
+        MeuGridLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nCPF : '
+                    text:'CPF : '
                 Entrada:
-                    id: Ecpf
+                    id: EditarCpf
                     text: app.getCliente().cpf
                     disabled: True
-            BoxLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nNOME : '
+                    text:'NOME : '
                 Entrada:
-                    id: Enome
+                    id: EditarNome
                     text: app.getCliente().nome
-            BoxLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nENDERECO : '
+                    text:'ENDERECO : '
                 Entrada:
-                    id: Eendereco
+                    id: EditarEndereco
                     text: app.getCliente().endereco
-            BoxLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\nTELEFONE : '
+                    text:'TELEFONE : '
                 Entrada:
-                    id: Etelefone
+                    id: EditarTelefone
                     text: app.getCliente().telefone
-            BoxLayout:
+            MeuBoxLayout:
                 Botao:
                     text:'Salvar'
-                    on_release:app.editarCliente(Ecpf.text,Enome.text,Eendereco.text,Etelefone.text)
+                    on_release:app.editarCliente(EditarCpf.text,EditarNome.text,EditarEndereco.text,EditarTelefone.text)
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'menuCliente'
     Screen:
         name:'buscarCliente'
-        GridLayout:
-            padding:pad
-            spacing:spa
-            cols:1
-            BoxLayout:
+        MeuGridLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\n\n\n\n\nCPF : '
+                    text:'\n\n\n\n\nCPF : '
                 Entrada:
-                    id: Bcpf
-            BoxLayout:
+                    id: BuscarCpf
+            MeuBoxLayout:
                 Botao:
                     text:'Buscar'
-                    on_release: app.buscarCliente(Bcpf.text,Ecpf,Enome,Eendereco,Etelefone,Bcpf)
+                    on_release: app.buscarCliente(BuscarCpf,EditarCpf,EditarNome,EditarEndereco,EditarTelefone)
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'menuCliente'
     Screen:
         name:'deletarCliente'
-        GridLayout:
-            padding:pad
-            spacing:spa
-            cols:1
-            BoxLayout:
+        MeuGridLayout:
+            MeuBoxLayout:
                 Texto:
-                    text:'\n\n\n\n\n\nCPF : '
+                    text:'\n\n\n\n\nCPF : '
                 Entrada:
-                    id: Dcpf
-            BoxLayout:
+                    id: DeletarCpf
+            MeuBoxLayout:
                 Botao:
                     text:'Deletar ?'
-                    on_release: app.deletarCliente(Dcpf.text,Dcpf)
+                    on_release: app.deletarCliente(DeletarCpf)
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'menuCliente'
 
     Screen:
         name:'listarClientes'
-        BoxLayout:
+        MeuBoxLayout:
             orientation:'vertical'
             ScrollView:
-                Texto:
-                    id:clientes
-        BoxLayout:
+                MeuBoxLayout:
+                    id:boxClientes
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
             Botao:
                 text:'Voltar'
                 on_release:root.current = 'menuCliente'

@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import ScreenManager
 from GUI.popup.MyPopup import MyPopup
 from fachada.Fachada import Fachada
@@ -16,6 +17,8 @@ class MenuPrincipal(App):
         super(MenuPrincipal,self).__init__(**kwargs)
         self.cliente = Cliente('22211133311', 'TESTE TESTE', 'RUA TESTE', '88888888')
         self.fachada = Fachada()
+        self.tamanhoFonte = 20
+        self.height = 150
 
     def build(self):
         self.menuInicial = Menu()
@@ -34,30 +37,31 @@ class MenuPrincipal(App):
         except BaseException as e:
             MyPopup(e.__str__())
 
-    def buscarCliente(self,cpf,Ecpf,Enome,Eendereco,Etelefone,Bcpf):
+    def buscarCliente(self,BuscarCpf,EntradaCpf,EntradaNome,EntradaEndereco,EntradaTelefone):
         try:
-            Bcpf.text = ''
-            self.cliente = self.fachada.buscarCliente(cpf)
 
-            Ecpf.text = self.cliente.cpf
-            Enome.text = self.cliente.nome
-            Eendereco.text = self.cliente.endereco
-            Etelefone.text = self.cliente.telefone
+            self.cliente = self.fachada.buscarCliente(BuscarCpf.text)
+            BuscarCpf.text = ''
+
+            EntradaCpf.text = self.cliente.cpf
+            EntradaNome.text = self.cliente.nome
+            EntradaEndereco.text = self.cliente.endereco
+            EntradaTelefone.text = self.cliente.telefone
 
             self.menuInicial.current = 'editarCliente'
 
         except BaseException as e:
             MyPopup(e.__str__())
 
-    def cadastrarCliente(self,cpf,nome,endereco,telefone,Ecpf,Enome,Eendereco,Etelefone):
+    def cadastrarCliente(self,EntradaCpf,EntradaNome,EntradaEndereco,EntradaTelefone):
         try:
-            Fachada().adicionarCliente(cpf,nome,endereco,telefone)
+            Fachada().adicionarCliente(EntradaCpf.text,EntradaNome.text,EntradaEndereco.text,EntradaTelefone.text)
             MyPopup('Cliente Cadastrado!!!')
 
-            Ecpf.text = ''
-            Enome.text = ''
-            Eendereco.text = ''
-            Etelefone.text = ''
+            EntradaCpf.text = ''
+            EntradaNome.text = ''
+            EntradaEndereco.text = ''
+            EntradaTelefone.text = ''
 
             self.menuInicial.current = 'menuCliente'
         except BaseException as e:
@@ -72,19 +76,23 @@ class MenuPrincipal(App):
         except BaseException as e:
             MyPopup(e.__str__())
 
-    def deletarCliente(self,cpf,Ecpf):
+    def deletarCliente(self,DeletarCpf):
         try:
-            self.fachada.removerCliente(cpf)
-            Ecpf.text = ''
+            self.fachada.removerCliente(DeletarCpf.text)
+            DeletarCpf.text = ''
 
             MyPopup('Cliente Removido!!!')
 
         except BaseException as e:
             MyPopup(e.__str__())
 
-    def listarClientes(self,clientes):
+    def listarClientes(self,boxClientes):
         try:
-            clientes.text = self.fachada.str_cliente()
+            boxClientes.clear_widgets()
+            for cliente in self.fachada.clientes.all_clientes():
+                label = Label(text=cliente.__str__(),size_hint_y=None,height=self.height,font_size=self.tamanhoFonte)
+                boxClientes.add_widget(label)
+
             self.menuInicial.current = 'listarClientes'
         except BaseException as e:
             MyPopup(e.__str__())
