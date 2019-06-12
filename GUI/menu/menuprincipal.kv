@@ -1,0 +1,543 @@
+#:set pad 15
+#:set spa 15
+
+<Botao@Button>:
+    font_size:25
+    size_hint_y:None
+    height:80
+
+<Entrada@TextInput>:
+    font_size:25
+    size_hint_y:None
+    height:40
+
+<Texto@Label>:
+    font_size:25
+
+<MeuBoxLayout@BoxLayout>:
+    padding:pad
+    spacing:spa
+
+<MeuGridLayout@GridLayout>:
+    cols:1
+    padding:pad
+    spacing:spa
+
+<Menu>:
+    canvas.before:
+        Rectangle:
+            pos: self.pos
+            size: self.size
+            source: '/home/saucesar/PycharmProjects/oficina-mecanica/GUI/img/logo3.png'
+    Screen:
+        name:'telaLogin'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\nLOGIN =>'
+                Entrada:
+                    id: login
+            MeuBoxLayout:
+                Texto:
+                    text:'\nSENHA =>'
+                Entrada:
+                    id: senha
+                    password: not exibir.active
+            MeuBoxLayout:
+                Texto:
+                    text:'_______________________________________Exibir Senha?'
+                CheckBox:
+                    id:exibir
+            MeuBoxLayout:
+                Botao:
+                    text:'Entrar'
+                    on_release:app.login(login.text,senha.text,login,senha)
+                Botao:
+                    text:'Sair'
+                    on_release:app.stop()
+    Screen:
+        name:'menu'
+        MeuGridLayout:
+            MeuGridLayout:
+                cols:3
+                Botao:
+                    text:'Menu\nClientes'
+                    on_release:root.current = 'menuCliente'
+                Botao:
+                    text:'Menu\nFornecedores'
+                    on_release:root.current = 'menuFornecedor'
+                Botao:
+                    text:'Menu\nFuncionarios'
+                Botao:
+                    text:'Menu\nPecas'
+                    on_release:root.current = 'menuPeca'
+                Botao:
+                    text:'Menu\nPedidos'
+                Botao:
+                    text:'Menu\nServicos'
+                Botao:
+                    text:'Menu\nVendas'
+                    on_release:root.current = 'menuVenda'
+            MeuBoxLayout:
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'telaLogin'
+                Botao:
+                    text:'Encerrar'
+                    on_release:app.stop()
+
+    Screen:
+        name:'menuCliente'
+        MeuGridLayout:
+            cols:3
+            Botao:
+                text:'Novo\nCliente'
+                on_release:root.current = 'cadastrarCliente'
+            Botao:
+                text:'Buscar\nCliente'
+                on_release:root.current = 'buscarCliente'
+            Botao:
+                text:'Editar\nCliente'
+                on_release:root.current = 'buscarCliente'
+            Botao:
+                text:'Deletar\nCliente'
+                on_release:root.current = 'deletarCliente'
+            Botao:
+                text:'Listar\nClientes'
+                on_release:app.listarClientes(boxClientes)
+        Botao
+            text:'Menu Pricipal'
+            on_release:root.current = 'menu'
+    Screen:
+        name:'cadastrarCliente'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CPF : '
+                Entrada:
+                    id: EntradaCpf
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EntradaNome
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EntradaEndereco
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE : '
+                Entrada:
+                    id: EntradaTelefone
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.cadastrarCliente(EntradaCpf,EntradaNome,EntradaEndereco,EntradaTelefone)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+    Screen:
+        name:'editarCliente'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CPF : '
+                Entrada:
+                    id: EditarCpf
+                    text: app.getCliente().cpf
+                    disabled: True
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EditarNome
+                    text: app.getCliente().nome
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EditarEndereco
+                    text: app.getCliente().endereco
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE : '
+                Entrada:
+                    id: EditarTelefone
+                    text: app.getCliente().telefone
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarCliente(EditarCpf.text,EditarNome.text,EditarEndereco.text,EditarTelefone.text)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+    Screen:
+        name:'buscarCliente'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCPF : '
+                Entrada:
+                    id: BuscarCpf
+            MeuBoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release: app.buscarCliente(BuscarCpf,EditarCpf,EditarNome,EditarEndereco,EditarTelefone)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+    Screen:
+        name:'deletarCliente'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCPF : '
+                Entrada:
+                    id: DeletarCpf
+            MeuBoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarCliente(DeletarCpf)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuCliente'
+
+    Screen:
+        name:'listarClientes'
+        MeuBoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxClientes
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuCliente'
+    Screen:
+        name:'menuFornecedor'
+        MeuGridLayout:
+            cols:3
+            Botao:
+                text:'Novo\nFornecedor'
+                on_release:root.current = 'cadastrarFornecedor'
+            Botao:
+                text:'Buscar\nFornecedor'
+                on_release:root.current = 'buscarFornecedor'
+            Botao:
+                text:'Editar\nFornecedor'
+                on_release:root.current = 'buscarFornecedor'
+            Botao:
+                text:'Deletar\nFornecedor'
+                on_release:root.current = 'deletarFornecedor'
+            Botao:
+                text:'Listar\nFornecedores'
+                on_release:app.listarFornecedores(boxFornecedor)
+        Botao:
+            text:'Menu Pricipal'
+            on_release:root.current = 'menu'
+    Screen:
+        name:'cadastrarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ : '
+                Entrada:
+                    id: EntCnpj
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EntNomeForn
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE :'
+                Entrada:
+                    id: EntTelefoneForn
+            MeuBoxLayout:
+                Texto:
+                    text:'EMAIL : '
+                Entrada:
+                    id: EntEmailForn
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EntEnderecoForn
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.cadastrarFornecedor(EntCnpj,EntNomeForn,EntTelefoneForn,EntEmailForn,EntEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'editarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ : '
+                Entrada:
+                    id: EditCnpj
+                    disabled: True
+            MeuBoxLayout:
+                Texto:
+                    text:'NOME : '
+                Entrada:
+                    id: EditNomeForn
+            MeuBoxLayout:
+                Texto:
+                    text:'TELEFONE :'
+                Entrada:
+                    id: EditTelefoneForn
+            MeuBoxLayout:
+                Texto:
+                    text:'EMAIL : '
+                Entrada:
+                    id: EditEmailForn
+            MeuBoxLayout:
+                Texto:
+                    text:'ENDERECO : '
+                Entrada:
+                    id: EditEnderecoForn
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarFornecedor(EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'buscarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCNPJ : '
+                Entrada:
+                    id: BuscarCnpj
+            MeuBoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release: app.buscarFornecedor(BuscarCnpj,EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'listarFornecedores'
+        MeuBoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxFornecedor
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuFornecedor'
+    Screen:
+        name:'deletarFornecedor'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCNPJ : '
+                Entrada:
+                    id: DeletarCnpj
+            MeuBoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarFornecedor(DeletarCnpj)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+
+    Screen:
+        name:'menuVenda'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Botao:
+                    text:'Nova Venda'
+                    on_release:root.current = 'novaVenda'
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menu'
+
+    Screen:
+        name:'novaVenda'
+        MeuGridLayout:
+            Texto:
+                text:'Tela de Venda'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxVenda
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            MeuBoxLayout:
+                Texto:
+                    text:'ID PECA : '
+                Entrada:
+                    id: EntradaIdPeca
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EntradaQuantidade
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Adicionar'
+                    on_release:app.adicionarPeca(EntradaIdPeca, EntradaQuantidade, boxVenda)
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuVenda'
+    Screen:
+        name:'menuPeca'
+        MeuGridLayout:
+            cols:3
+            Botao:
+                text:'Nova\nPeca'
+                on_release:root.current = 'cadastrarPeca'
+            Botao:
+                text:'Buscar\nPeca'
+                on_release:root.current = 'buscarPeca'
+            Botao:
+                text:'Editar\nPeca'
+                on_release:root.current = 'editarPeca'
+            Botao:
+                text:'Deletar\nPeca'
+                on_release:root.current = 'deletarPeca'
+            Botao:
+                text:'Listar\nPecas'
+                on_release:app.listarPecas(boxPecas)
+        Botao:
+            text:'Menu Pricipal'
+            on_release:root.current = 'menu'
+
+    Screen:
+        name:'cadastrarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'DESCRICAO : '
+                Entrada:
+                    id: EntDescricaoPeca
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ FORNECEDOR :'
+                Entrada:
+                    id: EntFornecedor
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO CUSTO : R$ '
+                Entrada:
+                    id: EntPrecoCusto
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO VENDA : R$ '
+                Entrada:
+                    id: EntPrecoVenda
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EntQuantidadePeca
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.cadastrarPeca(EntDescricaoPeca,EntFornecedor,EntPrecoCusto,EntPrecoVenda,EntQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'editarPeca'
+        MeuBoxLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'ID : '
+                Entrada:
+                    id: EditIdPeca
+                    disabled:True
+            MeuBoxLayout:
+                Texto:
+                    text:'DESCRICAO : '
+                Entrada:
+                    id: EditDescricaoPeca
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ FORNECEDOR :'
+                Entrada:
+                    id: EditFornecedor
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO CUSTO : R$ '
+                Entrada:
+                    id: EditPrecoCusto
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO VENDA : R$ '
+                Entrada:
+                    id: EditPrecoVenda
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EditQuantidadePeca
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarPeca(EditIdPeca,EditDescricaoPeca,EditFornecedor,EditPrecoCusto,EditPrecoVenda,EditQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'buscarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCODIGO : '
+                Entrada:
+                    id: BuscarIdPeca
+            MeuBoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release:app.buscarPeca(BuscarIdPeca,EditIdPeca,EditDescricaoPeca,EditFornecedor,EditPrecoCusto,EditPrecoVenda,EditQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'listarPecas'
+        MeuBoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxPecas
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuPeca'
+    Screen:
+        name:'deletarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCODIGO : '
+                Entrada:
+                    id: DeletarPeca
+            MeuBoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarPeca(DeletarPeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'

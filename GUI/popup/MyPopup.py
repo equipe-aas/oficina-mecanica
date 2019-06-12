@@ -6,7 +6,7 @@ from kivy.uix.popup import Popup
 class MyPopup(Popup):
     def __init__(self,msg,**kwargs):
         super().__init__(**kwargs)
-        label = Label(text=msg,font_size=50,size_hint_y=None)
+        label = Label(text=msg,font_size=20,size_hint_y=None)
         botao = Button(text='OK',size_hint_y=None)
 
         box = BoxLayout(orientation='vertical',padding=15)

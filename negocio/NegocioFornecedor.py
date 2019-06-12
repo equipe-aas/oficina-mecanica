@@ -1,43 +1,40 @@
-from dados.RepositorioFornecedor import RepositorioFornecedor
 from excessoes.CnpjExisteException import CnpjExisteException
 from excessoes.FornecedorNaoExisteException import FornecedorNaoExisteException
-from excessoes.NomeInvalidoException import NomeInvalidoException
-from excessoes.TelefoneInvalidoException import TelefoneInvalidoException
-from excessoes.EmailInvalidoException import EmailInvalidoException
-from entidades.Fornecedor import Fornecedor
+from negocio.entidades.Fornecedor import Fornecedor
+from validacao.ValidaDados import ValidaDados
+from dados.ConexaoDataBase import ConexaoDataBase
 
 class NegocioFornecedor:
     def __init__(self):
-        self.fornecedores = RepositorioFornecedor()
+        self.fornecedores = ConexaoDataBase()
     def adicionar(self, cnpj, nome, telefone, email, endereco):
-        if self.fornecedores.buscar(cnpj) != None:
+        fornecedor = Fornecedor(cnpj, nome, telefone, email, endereco)
+        if self.fornecedores.buscarFornecedor(cnpj) != None:
             raise CnpjExisteException(cnpj)
-        if len(nome) < 5:
-            raise NomeInvalidoException(nome)
-        if len(telefone) < 8:
-            raise TelefoneInvalidoException(telefone)
-        if not self.isEmail(email):
-            raise EmailInvalidoException(email)
-        else:
-            self.fornecedores.adicionar(Fornecedor(cnpj, nome, telefone, email, endereco))
+        if ValidaDados.validaFornecedor(cnpj, nome, telefone, email, endereco):
+            self.fornecedores.inserirFornecedor(fornecedor)
 
     def remover(self,cnpj):
-        fornecedor = self.fornecedores.buscar(cnpj)
+        fornecedor = self.fornecedores.buscarFornecedor(cnpj)
         if(fornecedor != None):
-            self.fornecedores.remover(fornecedor)
+            self.fornecedores.deletarFornecedor(cnpj)
         else:
             raise FornecedorNaoExisteException(cnpj)
+
+    def atualizar(self,fornecedor):
+        if ValidaDados.validaFornecedor(fornecedor.cnpj, fornecedor.nome, fornecedor.telefone, fornecedor.email, fornecedor.endereco):
+            self.fornecedores.atualizarFornecedor(fornecedor)
+
     def buscar(self,cnpj):
-        fornecedor = self.fornecedores.buscar(cnpj)
-        if(fornecedor != None):
+        fornecedor = self.fornecedores.buscarFornecedor(cnpj)
+        if fornecedor != None:
             return fornecedor
         else:
             raise FornecedorNaoExisteException(cnpj)
+    def all_fornecedores(self):
+        return self.fornecedores.todosFornecedores()
     def __str__(self):
-        return self.fornecedores.__str__()
-
-    def isEmail(self, email):
-        if '@' in list(email):
-            return True
-        else:
-            return False
+        string = ""
+        for f in self.fornecedores.todosFornecedores():
+            string += f.__str__()
+        return string

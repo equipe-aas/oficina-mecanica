@@ -6,6 +6,6 @@ class Fornecedor:
         self.email = email
         self.endereco = endereco
     def __str__(self):
-        string = "CNPJ: "+str(self.cnpj)+"NOME: "+self.nome+"TELEFONE:" +self.telefone+\
-                 "\nEMAIL: "+self.email+"\n"+self.endereco.__str__()
+        string = "CNPJ: "+str(self.cnpj)+"\nNOME: "+self.nome+"\nTELEFONE:" +self.telefone+\
+                 "\nEMAIL: "+self.email+"\nENDEREÇO: "+self.endereco.__str__()
         return string

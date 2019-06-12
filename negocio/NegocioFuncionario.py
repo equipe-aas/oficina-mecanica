@@ -1,46 +1,43 @@
-from dados.RepositorioPessoa import RepositorioPessoa
+from dados.ConexaoDataBase import ConexaoDataBase
+from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
 from excessoes.CpfJaExisteException import CpfJaExisteException
 from excessoes.CpfNaoEncontradoException import CpfNaoEncontradoException
 from excessoes.RgExisteException import RgExisteException
-from excessoes.NomeInvalidoException import NomeInvalidoException
 from excessoes.SenhaInvalidaException import SenhaInvalidaException
-from excessoes.ValorInvalidoException import ValorInvalidoException
-from excessoes.TelefoneInvalidoException import TelefoneInvalidoException
 from excessoes.LoginInvalidoException import LoginInvalidoException
 from validacao.ValidaDados import ValidaDados
-from entidades.Funcionario import Funcionario
+from negocio.entidades.Funcionario import Funcionario
 
 class NegocioFuncionario:
-    matricula = 0
     def __init__(self):
-        self.funcionarios = RepositorioPessoa()
+        self.funcionarios = ConexaoDataBase()
     def adicionar(self, rg, cpf, nome, funcao, data_nasc, salario,endereco,telefone):
         if self.funcionarios.buscar(cpf) != None:
             raise CpfJaExisteException(cpf)
         if self.buscarPorRg(rg) != None:
             raise RgExisteException(rg)
-        if len(nome) < 5:
-            raise NomeInvalidoException(nome)
-        if(salario < 0):
-            raise ValorInvalidoException(salario)
-        if(len(telefone) < 8 or not ValidaDados.__isNumeric__(telefone)):
-            raise TelefoneInvalidoException(telefone)
-        else:
-            NegocioFuncionario.matricula += 1
-            self.funcionarios.adicionar(Funcionario(NegocioFuncionario.matricula,rg, cpf, nome, funcao,
-                                                    data_nasc, salario, endereco, telefone))
+        if ValidaDados.validaFuncionario(rg, cpf, nome,data_nasc, salario,endereco,telefone):
+            self.funcionarios.inserirFuncionario(Funcionario(0,rg, cpf, nome, funcao,data_nasc, salario, endereco, telefone))
+
+    def atualizar(self,funcinario):
+        if ValidaDados.validaFuncionario(funcinario.rg, funcinario.cpf, funcinario.nome, funcinario.data_nasc,\
+                                         funcinario.salario, funcinario.endereco,funcinario.telefone):
+            self.funcionarios.atualizarFuncionario(funcinario)
+
     def remover(self,cpf):
-        funcionario = self.funcionarios.buscar(cpf)
+        funcionario = self.funcionarios.buscarFuncionario(cpf)
         if(funcionario != None):
-            self.funcionarios.remover(funcionario)
+            self.funcionarios.deletarFuncionario(funcionario)
         else:
             raise CpfNaoEncontradoException(cpf)
+
     def buscar(self,cpf):
-        funcionario = self.funcionarios.buscar(cpf)
+        funcionario = self.funcionarios.buscarFuncionario(cpf)
         if(funcionario != None):
             return funcionario
         else:
             raise CpfNaoEncontradoException(cpf)
+
     def login(self,log,senha):
         funcionario = self.buscarPorLogin(log)
         if funcionario == None:
@@ -51,24 +48,39 @@ class NegocioFuncionario:
             raise SenhaInvalidaException(senha)
     def buscarPorLogin(self,login):
         funcionario = None
-        for i in self.funcionarios.pessoas:
+        for i in self.funcionarios.todosFuncionarios():
             if i.login == login:
                 funcionario = i
                 break
         return funcionario
     def buscarPorRg(self,rg):
         funcionario = None
-        for i in self.funcionarios.pessoas:
+        for i in self.funcionarios.todosFuncionarios():
             if i.rg == rg:
                 funcionario = i
                 break
         return funcionario
-    def promover(self,cpf):
-        funcinario = self.buscar(cpf)
+    def rebaixar(self,matricula):
+        funcinario = self.funcionarios.buscarFuncionario(matricula)
+        if (funcinario != None):
+            funcinario.is_gerente = False
+            funcinario.funcao = "Funcionario"
+            self.atualizar(funcinario)
+        else:
+            raise CodigoNaoEncontradoException(matricula)
+
+    def promover(self,matricula):
+        funcinario = self.funcionarios.buscarFuncionario(matricula)
         if(funcinario != None):
             funcinario.is_gerente = True
             funcinario.funcao = "GERENTE"
+            self.atualizar(funcinario)
         else:
-            raise CpfNaoEncontradoException(cpf)
+            raise CodigoNaoEncontradoException(matricula)
+    def all_funcionarios(self):
+        return self.funcionarios.todosFuncionarios()
     def __str__(self):
-        return self.funcionarios.__str__()
+        string = ""
+        for i in self.funcionarios.todosFuncionarios():
+            string += i.__str__()
+        return string

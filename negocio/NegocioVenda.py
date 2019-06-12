@@ -1,19 +1,21 @@
-from dados.RepositorioVenda import RepositorioVenda
+from dados.ConexaoDataBase import ConexaoDataBase
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
 
 class NegocioVenda:
-    codigo = 0
     def __init__(self):
-        self.vendas = RepositorioVenda()
+        self.vendas = ConexaoDataBase()
     def adicionar(self,venda):
-        self.vendas.adicionar(venda)
+        self.vendas.inserirVenda(venda)
     def remover(self,codigo):
-        self.vendas.remover(self.buscar(codigo))
-    def buscar(self,codigo):
-        venda = self.vendas.buscar(codigo)
+        self.vendas.deletarVenda(codigo)
+    def buscarVenda(self,codigo):
+        venda = self.vendas.buscarVenda(codigo)
         if venda != None:
             return venda
         else:
             raise CodigoNaoEncontradoException(codigo)
     def __str__(self):
-        return self.vendas.__str__()
+        string = ""
+        for i in self.vendas.todasVendas():
+            string += i.__str__()
+        return string

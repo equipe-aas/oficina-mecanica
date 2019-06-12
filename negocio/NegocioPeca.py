@@ -1,37 +1,35 @@
-from dados.RepositorioPeca import RepositorioPeca
 from excessoes.CodigoNaoEncontradoException import CodigoNaoEncontradoException
-from excessoes.DescricaoInvalidaException import DescricaoInvalidaException
-from excessoes.ValorInvalidoException import ValorInvalidoException
-from entidades.Peca import Peca
+from negocio.entidades.Peca import Peca
+from dados.ConexaoDataBase import ConexaoDataBase
+from validacao.ValidaDados import ValidaDados
 
 class NegocioPeca:
-    codigo = 0
     def __init__(self):
-        self.pecas = RepositorioPeca()
+        self.pecas = ConexaoDataBase()
     def adicionar(self, descricao, fornecedor, preco_custo, preco_venda, quantidade):
-        if len(descricao)<5 :
-            raise DescricaoInvalidaException(descricao)
-        if preco_custo < 0:
-            raise ValorInvalidoException(preco_custo)
-        if preco_venda < 0:
-            raise ValorInvalidoException(preco_venda)
-        if quantidade < 0:
-            raise ValorInvalidoException(quantidade)
-        else:
-            NegocioPeca.codigo += 1
-            self.pecas.adicionar(Peca(NegocioPeca.codigo,descricao, fornecedor, preco_custo, preco_venda, quantidade))
+        if ValidaDados.validaPeca(descricao,preco_custo, preco_venda, quantidade):
+            self.pecas.inserirPeca(Peca(0,descricao, fornecedor, preco_custo, preco_venda, quantidade))
+
+    def atualizar(self,peca):
+        if ValidaDados.validaPeca(peca.descricao,peca.preco_custo, peca.preco_venda, peca.quantidade):
+            self.pecas.atualizarPeca(peca)
+
     def remover(self,codigo):
-        peca = self.pecas.buscar(codigo)
+        peca = self.pecas.buscarPeca(codigo)
         if(peca != None):
-            self.pecas.remover(peca)
+            self.pecas.deletarPedido(codigo)
         else:
             raise CodigoNaoEncontradoException(codigo)
     def buscar(self, codigo):
-        peca = self.pecas.buscar(codigo)
+        peca = self.pecas.buscarPeca(codigo)
         if (peca != None):
             return peca
         else:
             raise CodigoNaoEncontradoException(codigo)
-
+    def all_pecas(self):
+        return self.pecas.todasPecas()
     def __str__(self):
-        return self.pecas.__str__()
+        string = ""
+        for i in self.ṕecas.todasPecas():
+            string += i.__str__()
+        return string
