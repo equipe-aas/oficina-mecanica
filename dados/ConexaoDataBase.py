@@ -138,7 +138,7 @@ class ConexaoDataBase:
         c = self.cursor.execute(comando, (codigo,)).fetchall()
         if len(c) < 1:
             return None
-        return Peca(c[0], c[1], c[2], c[3], c[4], c[5])
+        return Peca(c[0][0], c[0][1], self.buscarFornecedor(c[0][2]), c[0][3], c[0][4], c[0][5])
 
     def atualizarPeca(self, peca):
         self.cursor.execute(
@@ -157,7 +157,7 @@ class ConexaoDataBase:
         self.cursor.execute(comando)
         pecas = []
         for p in self.cursor.fetchall():
-            pecas.append(Peca(p[0], p[1], p[2], p[3], p[4], p[5]))
+            pecas.append(Peca(p[0], p[1], self.buscarFornecedor(p[2]), p[3], p[4], p[5]))
         return pecas
     #################################### CRUD PEDIDO ######################################################
     def inserirPedido(self, pedido):
@@ -287,7 +287,7 @@ class ConexaoDataBase:
         comando = 'SELECT * FROM venda WHERE codigo = ?'
         ven = self.cursor.execute(comando, (codigo,)).fetchall()
 
-        if len(ven < 1):
+        if len(ven)< 1:
             return None
 
         comando = 'SELECT * FROM venda_peca WHERE venda_codigo = ?'
@@ -328,3 +328,6 @@ class ConexaoDataBase:
         for v in self.cursor.fetchall():
             vendas.append(self.buscarVenda(v[0]))
         return vendas
+
+con = ConexaoDataBase()
+print(con.buscarPeca(1))

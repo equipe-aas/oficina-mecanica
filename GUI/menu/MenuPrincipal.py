@@ -6,6 +6,8 @@ from fachada.Fachada import Fachada
 from negocio.entidades.Cliente import Cliente
 from kivy.config import Config
 
+from negocio.entidades.PecaQuantidade import PecaQuantidade
+
 Config.set('graphics', 'width', '650')
 Config.set('graphics', 'height', '500')
 
@@ -107,6 +109,7 @@ class MenuPrincipal(App):
             self.menuInicial.current = 'listarFornecedores'
         except BaseException as e:
             MyPopup(e.__str__())
+
     def cadastrarFornecedor(self,EntradaCnpj,EntradaNome,EntradaTelefone,EntradaEmail,EntradaEndereco):
         try:
             self.fachada.adicionarFornecedor(EntradaCnpj.text, EntradaNome.text, EntradaTelefone.text,\
@@ -123,6 +126,7 @@ class MenuPrincipal(App):
             self.menuInicial.current = 'menuFornecedor'
         except BaseException as e:
             MyPopup(e.__str__())
+
     def editarFornecedor(self,EditCnpj,EditNomeForn,EditTelefoneForn,EditEmailForn,EditEnderecoForn):
         try:
             self.fachada.atualizarFornecedor(EditCnpj.text, EditNomeForn.text, EditTelefoneForn.text,\
@@ -149,12 +153,94 @@ class MenuPrincipal(App):
 
         except BaseException as e:
             MyPopup(e.__str__())
+
     def deletarFornecedor(self,DeletarCnpj):
         try:
             self.fachada.removerFornecedor(DeletarCnpj.text)
             DeletarCnpj.text = ''
 
             MyPopup('Fornecedor Removido!!!')
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def adicionarPeca(self, EntradaIdPeca, EntradaQuantidade, boxVenda):
+        try:
+            peca = self.fachada.buscarPeca(int(EntradaIdPeca.text))
+            if(peca.quantidade < 1):
+                MyPopup('Estoque Baixo!!!\n'+peca.__str__())
+
+            pecaQuantidade = PecaQuantidade(peca,int(EntradaQuantidade.text))
+            label = Label(text=pecaQuantidade.__str__(), size_hint_y=None, height=self.height, font_size=self.tamanhoFonte)
+            boxVenda.add_widget(label)
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def cadastrarPeca(self, EntDescricaoPeca,EntFornecedor,EntPrecoCusto,EntPrecoVenda,EntQuantidadePeca):
+        try:
+            fornecedor = self.fachada.buscarFornecedor(EntFornecedor.text)
+            self.fachada.adicionarPeca(EntDescricaoPeca.text, fornecedor, float(EntPrecoCusto.text),\
+                                          float(EntPrecoVenda.text), int(EntQuantidadePeca.text))
+
+            MyPopup('Peca Cadastrada!!!')
+
+            EntDescricaoPeca.text = ''
+            EntFornecedor.text = ''
+            EntPrecoCusto.text = ''
+            EntPrecoVenda.text = ''
+            EntQuantidadePeca.text = ''
+
+            self.menuInicial.current = 'menuPeca'
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def editarPeca(self, EditIdPeca, EditDescricaoPeca, EditFornecedor, EditPrecoCusto, EditPrecoVenda, EditQuantidadePeca):
+        try:
+            self.fachada.atualizarPeca(int(EditIdPeca.text), EditDescricaoPeca.text, EditFornecedor.text,\
+                                       float(EditPrecoCusto.text), float(EditPrecoVenda.text),int(EditQuantidadePeca.text))
+
+            MyPopup('Modificações Salvas!!!')
+            self.menuInicial.current = 'menuPeca'
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def buscarPeca(self, BuscarIdPeca,EditIdPeca,EditDescricaoPeca,EditFornecedor,EditPrecoCusto,EditPrecoVenda,EditQuantidadePeca):
+        try:
+
+            self.peca = self.fachada.buscarPeca(int(BuscarIdPeca.text))
+            BuscarIdPeca.text = ''
+
+            EditIdPeca.text = self.peca.codigo
+            EditDescricaoPeca.text = self.peca.descricao
+            EditFornecedor.text = self.peca.fornecedor
+            EditPrecoCusto.text = self.peca.preco_custo
+            EditPrecoVenda.text = self.peca.preco_venda
+            EditQuantidadePeca.text = self.peca.quantidade
+
+            self.menuInicial.current = 'editarPeca'
+
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def listarPecas(self, boxPecas):
+        try:
+            boxPecas.clear_widgets()
+            for peca in self.fachada.pecas.all_pecas():
+                label = Label(text=peca.__str__(),size_hint_y=None,height=self.height,font_size=self.tamanhoFonte)
+                boxPecas.add_widget(label)
+
+            self.menuInicial.current = 'listarPecas'
+        except BaseException as e:
+            MyPopup(e.__str__())
+
+    def deletarPeca(self, DeletarPeca):
+        try:
+            self.fachada.removerPeca(int(DeletarPeca.text))
+            DeletarPeca.text = ''
+
+            MyPopup('Peca Removida!!!')
 
         except BaseException as e:
             MyPopup(e.__str__())

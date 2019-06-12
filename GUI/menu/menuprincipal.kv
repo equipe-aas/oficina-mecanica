@@ -70,12 +70,14 @@
                     text:'Menu\nFuncionarios'
                 Botao:
                     text:'Menu\nPecas'
+                    on_release:root.current = 'menuPeca'
                 Botao:
                     text:'Menu\nPedidos'
                 Botao:
                     text:'Menu\nServicos'
                 Botao:
                     text:'Menu\nVendas'
+                    on_release:root.current = 'menuVenda'
             MeuBoxLayout:
                 Botao:
                     text:'Voltar'
@@ -348,6 +350,194 @@
                 Botao:
                     text:'Deletar ?'
                     on_release: app.deletarFornecedor(DeletarCnpj)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuFornecedor'
+
+    Screen:
+        name:'menuVenda'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Botao:
+                    text:'Nova Venda'
+                    on_release:root.current = 'novaVenda'
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menu'
+
+    Screen:
+        name:'novaVenda'
+        MeuGridLayout:
+            Texto:
+                text:'Tela de Venda'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxVenda
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            MeuBoxLayout:
+                Texto:
+                    text:'ID PECA : '
+                Entrada:
+                    id: EntradaIdPeca
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EntradaQuantidade
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Adicionar'
+                    on_release:app.adicionarPeca(EntradaIdPeca, EntradaQuantidade, boxVenda)
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuVenda'
+    Screen:
+        name:'menuPeca'
+        MeuGridLayout:
+            cols:3
+            Botao:
+                text:'Nova\nPeca'
+                on_release:root.current = 'cadastrarPeca'
+            Botao:
+                text:'Buscar\nPeca'
+                on_release:root.current = 'buscarPeca'
+            Botao:
+                text:'Editar\nPeca'
+                on_release:root.current = 'editarPeca'
+            Botao:
+                text:'Deletar\nPeca'
+                on_release:root.current = 'deletarPeca'
+            Botao:
+                text:'Listar\nPecas'
+                on_release:app.listarPecas(boxPecas)
+        Botao:
+            text:'Menu Pricipal'
+            on_release:root.current = 'menu'
+
+    Screen:
+        name:'cadastrarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'DESCRICAO : '
+                Entrada:
+                    id: EntDescricaoPeca
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ FORNECEDOR :'
+                Entrada:
+                    id: EntFornecedor
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO CUSTO : R$ '
+                Entrada:
+                    id: EntPrecoCusto
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO VENDA : R$ '
+                Entrada:
+                    id: EntPrecoVenda
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EntQuantidadePeca
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.cadastrarPeca(EntDescricaoPeca,EntFornecedor,EntPrecoCusto,EntPrecoVenda,EntQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'editarPeca'
+        MeuBoxLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'ID : '
+                Entrada:
+                    id: EditIdPeca
+                    disabled:True
+            MeuBoxLayout:
+                Texto:
+                    text:'DESCRICAO : '
+                Entrada:
+                    id: EditDescricaoPeca
+            MeuBoxLayout:
+                Texto:
+                    text:'CNPJ FORNECEDOR :'
+                Entrada:
+                    id: EditFornecedor
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO CUSTO : R$ '
+                Entrada:
+                    id: EditPrecoCusto
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'PRECO VENDA : R$ '
+                Entrada:
+                    id: EditPrecoVenda
+                    text:'1'
+            MeuBoxLayout:
+                Texto:
+                    text:'QUANTIDADE : '
+                Entrada:
+                    id: EditQuantidadePeca
+                    text:'1'
+            MeuBoxLayout:
+                Botao:
+                    text:'Salvar'
+                    on_release:app.editarPeca(EditIdPeca,EditDescricaoPeca,EditFornecedor,EditPrecoCusto,EditPrecoVenda,EditQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'buscarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCODIGO : '
+                Entrada:
+                    id: BuscarIdPeca
+            MeuBoxLayout:
+                Botao:
+                    text:'Buscar'
+                    on_release:app.buscarPeca(BuscarIdPeca,EditIdPeca,EditDescricaoPeca,EditFornecedor,EditPrecoCusto,EditPrecoVenda,EditQuantidadePeca)
+                Botao:
+                    text:'Voltar'
+                    on_release:root.current = 'menuPeca'
+    Screen:
+        name:'listarPecas'
+        MeuBoxLayout:
+            orientation:'vertical'
+            ScrollView:
+                MeuBoxLayout:
+                    id:boxPecas
+                    orientation:'vertical'
+                    height:self.minimum_height
+                    size_hint_y:None
+            Botao:
+                text:'Voltar'
+                on_release:root.current = 'menuPeca'
+    Screen:
+        name:'deletarPeca'
+        MeuGridLayout:
+            MeuBoxLayout:
+                Texto:
+                    text:'\n\n\n\n\nCODIGO : '
+                Entrada:
+                    id: DeletarPeca
+            MeuBoxLayout:
+                Botao:
+                    text:'Deletar ?'
+                    on_release: app.deletarPeca(DeletarPeca)
                 Botao:
                     text:'Voltar'
                     on_release:root.current = 'menuFornecedor'

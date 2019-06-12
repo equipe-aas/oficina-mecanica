@@ -7,7 +7,12 @@ class Peca:
         self.preco_venda = preco_venda
         self.quantidade = quantidade
     def __str__(self):
-        string = "CODIGO : "+str(self.codigo)+"\nDESCRICAO: "+str(self.descricao)+\
-                 "\nPRECO DE CUSTO: R$ "+str(round(self.preco_custo,2))+"\nPRECO DE VENDA: R$ "+str(round(self.preco_venda,2))+\
-                 "\nQUANTIDADE: "+str(self.quantidade)+"\n"+self.fornecedor.str()
+        string = "\n========================\n"+\
+                 "CODIGO : "+str(self.codigo)+\
+                 "\nDESCRICAO: "+str(self.descricao)+\
+                 "\nPRECO DE CUSTO: R$ "+str(round(self.preco_custo,2))+\
+                 "\nPRECO DE VENDA: R$ "+str(round(self.preco_venda,2))+\
+                 "\nQUANTIDADE: "+str(self.quantidade)+\
+                 "\n===== FORNECEDOR =======\n"+self.fornecedor.__str__()+\
+                 "\n========================\n"
         return string
