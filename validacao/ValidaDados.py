@@ -36,7 +36,7 @@ class ValidaDados:
             return False
     @staticmethod
     def validaFornecedor(cnpj, nome, telefone, email, endereco):
-        if ValidaDados.__isNumeric__(cnpj):
+        if not ValidaDados.__isNumeric__(cnpj):
             raise CnpjInvalidoException(cnpj)
         if len(nome) < 5:
             raise NomeInvalidoException(nome)
@@ -52,7 +52,7 @@ class ValidaDados:
     def validaCliente(cpf, nome, endereco, telefone):
         if not ValidaDados.__isCpf__(cpf):
             raise CpfInvalidoException(cpf)
-        if len(nome) < 10:
+        if len(nome) < 5:
             raise NomeInvalidoException(nome)
         if len(telefone) < 8:
             raise TelefoneInvalidoException(telefone)
